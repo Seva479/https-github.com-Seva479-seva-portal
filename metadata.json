@@ -1,0 +1,8 @@
+{
+  "name": "SEVA – Sustainable Ecology \u0026 Village Advancement",
+  "description": "Official Grassroots Digital Empowerment Platform \u0026 Management System for Sustainable Ecology \u0026 Village Advancement (SEVA).",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -100,20 +100,20 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-[#F7FAF8] text-[#172B24] font-sans selection:bg-[#0B6643] selection:text-white">
       {/* Announcement Banner if configured */}
       {showBanner && settings.announcement_banner && (
-        <div className="bg-[#D97706] text-white text-xs py-2 px-4 text-center font-medium relative flex items-center justify-center gap-3 shadow-xs">
-          <div className="flex items-center gap-1.5">
+        <div className="bg-[#D97706] text-white text-[11px] sm:text-xs py-1.5 px-3 sm:px-4 text-center font-medium relative flex items-center justify-center gap-2 shadow-xs">
+          <div className="flex items-center gap-1.5 truncate max-w-[85%] sm:max-w-none">
             <Sparkles className="w-3.5 h-3.5 shrink-0" />
-            <span>{settings.announcement_banner}</span>
+            <span className="truncate">{settings.announcement_banner}</span>
           </div>
           <button
             onClick={() => handleNavigate('apply')}
-            className="underline font-bold hover:text-amber-100 cursor-pointer hidden sm:inline"
+            className="underline font-bold hover:text-amber-100 cursor-pointer hidden sm:inline whitespace-nowrap"
           >
             Apply Now &rarr;
           </button>
           <button
             onClick={() => setShowBanner(false)}
-            className="absolute right-3 text-amber-200 hover:text-white p-0.5 cursor-pointer"
+            className="absolute right-2 text-amber-100 hover:text-white p-1 cursor-pointer shrink-0"
             aria-label="Dismiss banner"
           >
             <X className="w-3.5 h-3.5" />

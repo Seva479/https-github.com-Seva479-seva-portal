@@ -107,97 +107,106 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
-            <div className="lg:col-span-7 space-y-6">
-              {/* Main Headline (Bold, prominent) */}
-              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#143E29] leading-[1.18] text-balance">
+            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+              {/* Main Headline (Bold, high contrast, responsive) */}
+              <h1 className="text-[22px] sm:text-3xl lg:text-5xl font-black tracking-tight text-[#064E36] leading-[1.22] text-balance">
                 Strengthening Grassroots Organisations Through Digital Transformation
               </h1>
 
-              {/* Subtitle (directly below main headline): An Initiative of Sarathi Sanstha */}
-              <div className="flex items-center gap-2 pt-0.5">
-                <span className="text-base sm:text-lg font-bold text-[#0B6643] tracking-wide">
-                  An Initiative of{' '}
-                  <a
-                    href="https://www.sarathisanstha.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:text-[#064E36] font-extrabold text-[#184E34]"
-                  >
-                    Sarathi Sanstha
-                  </a>
-                </span>
+              {/* Subtitle Badge */}
+              <div className="pt-0.5">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/90 text-xs sm:text-sm font-bold text-[#064E36]">
+                  <span className="w-2 h-2 rounded-full bg-[#064E36] shrink-0" />
+                  <span>
+                    An Initiative of{' '}
+                    <a
+                      href="https://www.sarathisanstha.org"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-[#0B6643] font-black"
+                    >
+                      Sarathi Sanstha
+                    </a>
+                  </span>
+                </div>
               </div>
 
-              {/* Core Pillars in SEPARATE, DISTINCT COLOURS */}
-              <div className="pt-1 pb-1">
-                <div className="text-[11px] uppercase tracking-wider font-extrabold text-stone-500 mb-2">
-                  Core Pillars:
+              {/* Core Pillars: Structured Mobile Grid + Tablet/Desktop Pills */}
+              <div className="space-y-2 pt-1 pb-1">
+                <div className="text-[11px] uppercase tracking-wider font-extrabold text-stone-500 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0" />
+                  <span>Core Programme Pillars:</span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  {/* Pillar 1: Technology (Vibrant Blue) */}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs">
+                <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
+                  {/* Pillar 1: Technology */}
+                  <div className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-50 text-blue-900 border border-blue-200/90 shadow-2xs flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0" />
                     <span>Technology</span>
-                  </span>
+                  </div>
 
-                  {/* Pillar 2: Digital Capacity Building (Forest Emerald) */}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-2xs">
+                  {/* Pillar 2: Digital Capacity */}
+                  <div className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-50 text-emerald-900 border border-emerald-200/90 shadow-2xs flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" />
-                    <span>Digital Capacity Building</span>
-                  </span>
+                    <span>Capacity Building</span>
+                  </div>
 
-                  {/* Pillar 3: MIS (Warm Amber) */}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 text-amber-900 border border-amber-200/80 shadow-2xs">
+                  {/* Pillar 3: MIS */}
+                  <div className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 text-amber-950 border border-amber-200/90 shadow-2xs flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-600 shrink-0" />
-                    <span>MIS</span>
-                  </span>
+                    <span>MIS &amp; Systems</span>
+                  </div>
 
-                  {/* Pillar 4: Data Management (Deep Indigo) */}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/80 shadow-2xs">
+                  {/* Pillar 4: Data Management */}
+                  <div className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-50 text-indigo-900 border border-indigo-200/90 shadow-2xs flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-indigo-600 shrink-0" />
                     <span>Data Management</span>
-                  </span>
+                  </div>
 
-                  {/* Pillar 5: Social Impact (Rich Rose) */}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-rose-50 text-rose-700 border border-rose-200/80 shadow-2xs">
+                  {/* Pillar 5: Social Impact (spans 2 cols on mobile) */}
+                  <div className="col-span-2 sm:col-span-1 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-rose-50 text-rose-900 border border-rose-200/90 shadow-2xs flex items-center justify-center sm:justify-start gap-2">
                     <span className="w-2 h-2 rounded-full bg-rose-600 shrink-0" />
-                    <span>Social Impact</span>
-                  </span>
+                    <span>Ground Social Impact</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Main Description (hero paragraph) */}
-              <p className="text-base sm:text-lg text-[#254636] leading-[1.72] max-w-2xl font-normal">
+              {/* Main Description */}
+              <p className="text-sm sm:text-base lg:text-lg text-stone-700 leading-relaxed font-normal">
                 Technology should not be a barrier to village development. SEVA, an initiative of Sarathi Sanstha, works with grassroots organisations to simplify their systems, build digital confidence, improve data management, and amplify their ground social impact.
               </p>
 
-              {/* Additional Paragraph (below main description) */}
-              <p className="text-sm sm:text-base text-stone-600 leading-[1.68] max-w-2xl font-normal border-l-3 border-emerald-600/60 pl-3.5 bg-emerald-50/40 py-2 rounded-r-xl">
+              {/* Sarathi Sanstha Mission Statement */}
+              <div className="text-xs sm:text-sm text-[#143E29] leading-relaxed border-l-3 border-[#064E36] pl-3 py-2 bg-emerald-50/50 rounded-r-xl">
                 Sarathi Sanstha works with the objective of sustaining the livelihoods of tribal women and farmers, and also works on the issues of environment, education, and self-governance.
-              </p>
+              </div>
 
-              {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
+              {/* Responsive CTAs: Full-width on mobile, auto on desktop */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
                 <button
                   onClick={() => onNavigate('apply')}
-                  className="px-7 py-3.5 text-base font-semibold text-white bg-[#184E34] hover:bg-[#0F3825] rounded-full transition-all shadow-sm hover:shadow-md flex items-center gap-2.5 cursor-pointer active:scale-[0.98]"
+                  className="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-extrabold text-white bg-[#064E36] hover:bg-[#043E2B] active:bg-[#03261a] rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.98]"
                 >
                   <span>Discover Technology Support</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
 
                 <button
                   onClick={() => onNavigate('about')}
-                  className="px-7 py-3.5 text-base font-semibold text-[#184E34] bg-white hover:bg-stone-50 border border-stone-300 rounded-full transition-all cursor-pointer shadow-2xs"
+                  className="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-bold text-[#064E36] bg-white hover:bg-stone-50 border border-stone-300 rounded-full transition-all cursor-pointer shadow-2xs text-center"
                 >
                   Read About SEVA &rarr;
                 </button>
               </div>
 
-              {/* Sub-note */}
-              <div className="pt-2 flex items-center gap-2 text-xs text-[#325243]">
-                <span className="font-bold text-[#184E34]">Shared Contribution Model:</span>
-                <span>70% supported by SEVA · 30% grassroots contribution</span>
+              {/* Shared Contribution Model Banner */}
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-white border border-emerald-200/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span className="font-extrabold text-[#064E36]">Shared Contribution Model:</span>
+                </div>
+                <span className="text-stone-700 font-semibold pl-4 sm:pl-0">
+                  70% supported by SEVA · 30% grassroots contribution
+                </span>
               </div>
             </div>
 

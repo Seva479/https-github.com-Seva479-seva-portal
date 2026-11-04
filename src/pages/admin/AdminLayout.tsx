@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { SevaStore, ADMIN_USERS } from '../../services/store';
 import { Application, UserProfile, Meeting, ProgrammeProject } from '../../types';
+import { SevaLogo } from '../../components/SevaLogo';
 import { AdminOverview } from './AdminOverview';
 import { ApplicationsManager } from './ApplicationsManager';
 import { AgreementBudgetManager } from './AgreementBudgetManager';
@@ -133,28 +134,18 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
       <header className="bg-[#0F3825] text-white sticky top-0 z-40 border-b border-[#184E34] shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand & Area */}
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#E8F5E9] p-0.5 flex items-center justify-center shrink-0 border border-emerald-300/60 shadow-xs">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-7 h-7">
-                <path d="M24 4 C14 12 10 24 16 36 C22 48 38 44 42 28 C46 12 34 6 24 4 Z" fill="#52B788" opacity="0.85" />
-                <circle cx="12" cy="24" r="2.5" fill="#F59E0B" />
-                <circle cx="36" cy="24" r="2.5" fill="#F59E0B" />
-                <circle cx="24" cy="12" r="2.5" fill="#38BDF8" />
-                <text x="24" y="32" textAnchor="middle" fill="#FFFFFF" fontSize="22" fontWeight="900" fontFamily="sans-serif">
-                  S
-                </text>
-              </svg>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm sm:text-base tracking-tight block text-white">
-                  SEVA Admin Portal
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <SevaLogo variant="dark" showSubtitle={false} />
+            <div className="border-l border-emerald-700/60 pl-2.5 sm:pl-3">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-extrabold text-xs sm:text-base tracking-tight block text-white whitespace-nowrap">
+                  Admin Console
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-800/80 text-[10px] font-bold text-emerald-200 border border-emerald-600/40">
-                  प्रशासकीय नियंत्रण
+                <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-800 text-[9px] sm:text-[10px] font-bold text-emerald-200 border border-emerald-600/40 whitespace-nowrap">
+                  प्रशासकीय कक्ष
                 </span>
               </div>
-              <span className="text-[11px] text-emerald-200/90 block -mt-0.5 font-medium">
+              <span className="text-[10px] sm:text-[11px] text-emerald-200/90 hidden sm:block -mt-0.5 font-medium truncate max-w-xs">
                 Grassroots Digital Management Platform · Ralegaon
               </span>
             </div>

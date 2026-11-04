@@ -2,36 +2,128 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#064E36" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>SEVA – Sustainable Ecology &amp; Village Advancement | Digital Empowerment for Grassroots NGOs</title>
+    
+    <!-- SEO Meta Tags -->
     <meta name="description" content="Sustainable Ecology &amp; Village Advancement (SEVA) strengthens grassroots organisations, rural communities and development institutions across India through need-based digital transformation, MIS systems, and capacity building." />
+    <meta name="keywords" content="SEVA, Sustainable Ecology and Village Advancement, sevavillage, seva village, NGO Maharashtra, Yavatmal NGO, rural digital transformation, grassroots technology support, non-profit India, rural empowerment, digital literacy villages, ग्रामविकास, स्वयंसेवी संस्था, Ralegaon NGO" />
+    <meta name="author" content="Sustainable Ecology &amp; Village Advancement (SEVA)" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="google-site-verification" content="google12b5ef261543efee" />
+    <link rel="canonical" href="https://sevavillage.org/" />
+
+    <!-- Favicon (Official SEVA Emblem) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='%23E8F8F0'/><path d='M24 6 C17 11 11 21 15 34 C18 43 30 43 33 34 C37 21 31 11 24 6 Z' fill='%232E9E6B'/><circle cx='24' cy='11.5' r='2.2' fill='%2338BDF8'/><circle cx='12' cy='25' r='2.4' fill='%23F59E0B'/><circle cx='36' cy='25' r='2.4' fill='%23F59E0B'/><text x='24' y='32.5' text-anchor='middle' fill='%23FFFFFF' font-size='21' font-weight='900' font-family='sans-serif'>S</text></svg>" />
+
+    <!-- Geo Targeting (Maharashtra, India) -->
+    <meta name="geo.region" content="IN-MH" />
+    <meta name="geo.placename" content="Ralegaon, Yavatmal, Maharashtra" />
+    <meta name="geo.position" content="20.4167;78.5000" />
+    <meta name="ICBM" content="20.4167, 78.5000" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SEVA – Sustainable Ecology &amp; Village Advancement" />
+    <meta property="og:url" content="https://sevavillage.org/" />
     <meta property="og:title" content="SEVA – Sustainable Ecology &amp; Village Advancement" />
     <meta property="og:description" content="Empowering Grassroots Organisations Through Technology, Knowledge and Digital Transformation. Need-based digital solutions, MIS, and institutional capacity building." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.sevavillage.org" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="mr_IN" />
+
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://sevavillage.org/" />
     <meta name="twitter:title" content="SEVA – Sustainable Ecology &amp; Village Advancement" />
     <meta name="twitter:description" content="Strengthening Grassroots Organisations Through Digital Transformation across India." />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Lora:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Foundational Base Reset Styles (Ensures immediate clean rendering and proper typography across devices) -->
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        background-color: #F7FAF8;
+        color: #172B24;
+        font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+      }
+      svg {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+
+    <!-- Schema.org JSON-LD Structured Data for Google Search -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "NGO",
-      "name": "Sustainable Ecology & Village Advancement (SEVA)",
-      "url": "https://www.sevavillage.org",
-      "email": "seva.ecology@gmail.com",
-      "telephone": "+918999469974",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "31 B, Jalka, Ralegaon",
-        "addressLocality": "District Yavatmal",
-        "addressRegion": "Maharashtra",
-        "postalCode": "445402",
-        "addressCountry": "IN"
-      },
-      "description": "Strengthening grassroots organisations and rural development institutions through need-based technology support, MIS systems, and capacity building."
+      "@graph": [
+        {
+          "@type": "NGO",
+          "@id": "https://sevavillage.org/#organization",
+          "name": "Sustainable Ecology & Village Advancement",
+          "alternateName": ["SEVA", "SEVA Village", "सेव्हा संस्था"],
+          "url": "https://sevavillage.org",
+          "logo": "https://sevavillage.org/favicon.ico",
+          "email": "seva.ecology@gmail.com",
+          "telephone": "+918999469974",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "31 B, Jalka, Ralegaon",
+            "addressLocality": "District Yavatmal",
+            "addressRegion": "Maharashtra",
+            "postalCode": "445402",
+            "addressCountry": "IN"
+          },
+          "areaServed": [
+            {
+              "@type": "State",
+              "name": "Maharashtra"
+            },
+            {
+              "@type": "Country",
+              "name": "India"
+            }
+          ],
+          "description": "Strengthening grassroots organisations and rural development institutions through need-based technology support, MIS systems, and capacity building."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://sevavillage.org/#website",
+          "url": "https://sevavillage.org/",
+          "name": "SEVA – Sustainable Ecology & Village Advancement",
+          "publisher": {
+            "@id": "https://sevavillage.org/#organization"
+          },
+          "inLanguage": ["en", "mr"]
+        }
+      ]
     }
     </script>
   </head>

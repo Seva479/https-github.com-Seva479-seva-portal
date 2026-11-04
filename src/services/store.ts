@@ -10,8 +10,10 @@ import {
   OrganisationSettings,
   ProgrammeProject,
   ResourceItem,
+  TechnologySupportAgreement,
   UserProfile,
 } from '../types';
+import { INITIAL_AGREEMENT } from '../data/budgetBreakup';
 
 // Default Organisation Settings
 export const DEFAULT_ORG_SETTINGS: OrganisationSettings = {
@@ -223,7 +225,7 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
   },
 ];
 
-// Initial Knowledge Centre Resources (Part 11)
+// Initial Knowledge Centre Resources (Part 11) - Comprehensive for all 9 domain categories
 export const INITIAL_RESOURCES: ResourceItem[] = [
   {
     id: 'res-1',
@@ -232,7 +234,7 @@ export const INITIAL_RESOURCES: ResourceItem[] = [
     summary: 'A step-by-step framework for grassroots organisations to structure beneficiary databases without bloated software or expensive licenses.',
     content: `Many grassroots NGOs make the mistake of either collecting too little information or trying to collect 100 questions per family that nobody ever reads or analyzes.\n\nA practical rural MIS focuses on four core principles:\n1. Unit of Record: Define whether your primary entity is the individual, the household, or the self-help group.\n2. Indicator Discipline: Only collect data points that directly inform project decisions or donor compliance.\n3. Offline-First Architecture: Assume your field animators will encounter zero cellular connectivity in remote villages.\n4. Local Language Support: Ensure the data entry labels and confirmation screens match the vernacular language spoken by the community mobilizers.\n\nSEVA recommends beginning with a paper-to-digital matrix where every field column is mapped to a specific operational outcome.`,
     format: 'Guide',
-    download_name: 'SEVA_Rural_MIS_Framework_2026.pdf',
+    download_name: 'SEVA_Rural_MIS_Framework_2026.doc',
     read_time: '7 min read',
     published_date: '2026-09-10',
   },
@@ -243,7 +245,7 @@ export const INITIAL_RESOURCES: ResourceItem[] = [
     summary: 'Practical measures to protect community beneficiary data, prevent ransomware, and securely manage email accounts on shared office computers.',
     content: `Rural development organizations often handle sensitive demographic, health, and economic data of vulnerable communities. Yet, many organizations use shared laptops with no passwords or share generic email passwords on sticky notes.\n\nImmediate security checklist for NGOs:\n- Enable Two-Factor Authentication (2FA) on all organizational Google and banking accounts.\n- Segregate beneficiary identifiable data (Aadhaar, bank account details) with role-based access.\n- Establish an automated weekly backup policy to external encrypted drives or secure cloud storage.\n- Train field staff never to click suspicious links or download unverified APK files onto field survey tablets.`,
     format: 'Guide',
-    download_name: 'NGO_Digital_Security_Checklist.pdf',
+    download_name: 'NGO_Digital_Security_Checklist.doc',
     read_time: '5 min read',
     published_date: '2026-08-01',
   },
@@ -265,7 +267,7 @@ export const INITIAL_RESOURCES: ResourceItem[] = [
     summary: 'How small organizations can design clean, credible websites that showcase genuine community work without looking like generic corporate agencies.',
     content: `A credible grassroots website should never look like an IT agency or a glossy marketing brochure. Donors and community partners look for four things:\n1. Legal Transparency: Clear display of 12A, 80G, CSR-1, audited balance sheets, and annual reports.\n2. Clear Geographical Scope: Exact map and list of blocks, talukas, and villages covered.\n3. Human-Centred Stories: Real community voices and field photographs showing real people in dignified settings.\n4. Clean Contact Information: Physical office address, landline/mobile numbers, and official institutional email address.`,
     format: 'Guide',
-    download_name: 'NGO_Website_Best_Practices_Guide.pdf',
+    download_name: 'NGO_Website_Best_Practices_Guide.doc',
     read_time: '8 min read',
     published_date: '2026-06-11',
   },
@@ -276,9 +278,64 @@ export const INITIAL_RESOURCES: ResourceItem[] = [
     summary: 'Comparative analysis of mobile-based survey tools (Kobo, ODK, custom PWA) vs. centralized spreadsheets based on budget and staff capacity.',
     content: `Choosing the right data collection method depends on your team's geography, device availability, and frequency of data submission. This guide walks you through the trade-offs between open-source tools like KoboToolbox, ODK, Google Forms, and custom offline-first web apps.`,
     format: 'Toolkit',
-    download_name: 'Field_Data_Collection_Decision_Matrix.pdf',
+    download_name: 'Field_Data_Collection_Decision_Matrix.xlsx',
     read_time: '6 min read',
     published_date: '2026-04-18',
+  },
+  {
+    id: 'res-6',
+    title: 'Grassroots Digital Communication & Social Media Toolkit for Rural NGOs',
+    category: 'Digital Communication',
+    summary: 'Practical communication plan, monthly editorial calendar, and community storytelling framework designed for rural organisations without dedicated marketing staff.',
+    content: `Grassroots organisations do extraordinary work in villages, but often struggle to communicate their social impact beyond their immediate taluka.\n\nKey components of this toolkit:\n1. 30-Day Grassroots Editorial Calendar: Weekly themes (Farmer Testimonial, Field Photo Story, Milestones, Community Voice).\n2. WhatsApp Community Engagement Rules: How to run farmer and SHG broadcast channels without spamming or violating privacy.\n3. Donor Newsletter Template: Quarterly 2-page concise bulletin covering physical outputs, audited utilization, and verified beneficiary stories.\n4. Visual Guidelines: Best practices for taking dignified, high-resolution photographs in sunlight with affordable smartphones.`,
+    format: 'Toolkit',
+    download_name: 'Grassroots_Digital_Communication_Toolkit.xlsx',
+    read_time: '6 min read',
+    published_date: '2026-09-28',
+  },
+  {
+    id: 'res-7',
+    title: 'Rural Project Monitoring & Milestone Verification Framework',
+    category: 'Project Monitoring',
+    summary: 'Standardised indicator tracking sheet, field milestone verification checklists, and variance reporting matrices for CSR and philanthropic grant compliance.',
+    content: `Effective project monitoring bridges the gap between planned targets and ground realities.\n\nFramework highlights:\n1. Milestone Tracking Matrix: Map 9 implementation stages with quantifiable indicators.\n2. Variance Analysis: Automatically calculate discrepancies between planned vs. actual beneficiary reach.\n3. Ground Verification Protocol: Checklist for field supervisors to cross-verify registers against geotagged photographs.\n4. Social Audit Mechanism: Participatory Gram Sabha review sheets to share progress transparently with village community members.`,
+    format: 'Template',
+    download_name: 'SEVA_Rural_Project_Monitoring_Tracker.xlsx',
+    read_time: '5 min read',
+    published_date: '2026-09-15',
+  },
+  {
+    id: 'res-8',
+    title: 'Digital Literacy & Smartphone Field Training Manual for Rural Animators',
+    category: 'Capacity Building',
+    summary: 'Bilingual training curriculum and step-by-step participatory modules to train barefoot village coordinators in smartphone data entry, offline sync, and data ethics.',
+    content: `Training rural animators requires empathy, patience, and vernacular instructional design.\n\n6 Core Modules in this manual:\nModule 1: Smartphone Fundamentals (Touchscreen handling, battery management in power-scarce villages, storage cleanup).\nModule 2: Vernacular Data Entry (Using Marathi/Hindi keyboard, voice-typing for field observations).\nModule 3: Photographic Documentation (Capturing legible receipts, geo-tagged crop yields, and check-dam water levels).\nModule 4: Offline Synchronization (Navigating areas with zero cellular reception and syncing safely when back at the block office).\nModule 5: Data Privacy & Ethics (Seeking oral consent, safeguarding women's contact information).\nModule 6: Troubleshooting Field Errors (Fixing duplicate entries and recovery procedures).`,
+    format: 'Guide',
+    download_name: 'Field_Animators_Digital_Training_Manual.doc',
+    read_time: '10 min read',
+    published_date: '2026-08-20',
+  },
+  {
+    id: 'res-9',
+    title: 'Appropriate Rural Technology Selection & Feasibility Matrix',
+    category: 'Technology for Rural Development',
+    summary: 'Decision matrix comparing cloud vs offline-first architectures, low-cost solar hardware, and resilient database choices tailored to rural Indian power and connectivity realities.',
+    content: `Technology in rural development must be appropriate, resilient, and maintainable by the local team.\n\nCriteria evaluated in this matrix:\n1. Cellular Connectivity Tolerance: Systems that function 100% offline with peer-to-peer or local SQLite storage.\n2. Power Resilience: Hardware compatible with 12V solar DC setups and resistant to extreme village dust and heat.\n3. Operating Cost: Zero recurring monthly SaaS seat licenses; preference for open-source or self-hosted stacks.\n4. Total Cost of Ownership (TCO): Breakdown under the SEVA 70-30 model (70% SEVA technical subsidy, 30% NGO investment).\n5. Handover Autonomy: Ensuring the grassroots team owns 100% of the code, database schemas, and administrator credentials.`,
+    format: 'Toolkit',
+    download_name: 'Appropriate_Rural_Technology_Matrix.xlsx',
+    read_time: '8 min read',
+    published_date: '2026-07-28',
+  },
+  {
+    id: 'res-10',
+    title: 'SEVA Official Technology Support Agreement & 70-30 Budget Breakup Model',
+    category: 'Documentation and Reporting',
+    summary: 'Official template of the Technology Support Agreement between SEVA (First Party) and Grassroots Partner (Second Party), including itemized budget heads, 70% SEVA support, and 30% partner contribution terms.',
+    content: `Official bipartite agreement draft governing the Grassroots Technology Support Programme.\n\nIncludes:\n- Purpose of Agreement and institutional capacity building scope\n- 9 Standard Milestone stages from Needs Assessment to Final Handover\n- Itemized Budget Heads (Mobile App, Web MIS, Institutional Website, Capacity Training, Server Maintenance)\n- 70% SEVA Support vs 30% Partner Contribution breakdown\n- Intellectual Property ownership and code handover guarantees\n- Bank transfer instructions and dispute resolution jurisdiction (Yavatmal, Maharashtra).`,
+    format: 'Template',
+    download_name: 'SEVA_Technology_Support_Agreement_2026.doc',
+    read_time: '12 min read',
+    published_date: '2026-10-01',
   },
 ];
 
@@ -822,6 +879,7 @@ export const INITIAL_CONTACT_MESSAGES: ContactMessage[] = [
 // Storage Keys
 const STORAGE_KEYS = {
   APPLICATIONS: 'seva_applications_v1',
+  DELETED_APPLICATIONS: 'seva_deleted_applications_v1',
   SETTINGS: 'seva_settings_v1',
   IMPACT_STATS: 'seva_impact_stats_v1',
   CASE_STUDIES: 'seva_case_studies_v1',
@@ -829,10 +887,38 @@ const STORAGE_KEYS = {
   MEETINGS: 'seva_meetings_v1',
   EMAIL_LOGS: 'seva_email_logs_v1',
   EMAIL_TEMPLATES: 'seva_email_templates_v1',
+  EMAIL_SIGNATURE: 'seva_email_signature_v1',
+  AGREEMENTS: 'seva_agreements_v1',
   PROJECTS: 'seva_projects_v1',
   CONTACT_MESSAGES: 'seva_contact_messages_v1',
   CURRENT_USER: 'seva_current_user_v1',
 };
+
+// In-memory fallback map for mobile browsers / WebView / private mode when localStorage is restricted
+const memoryFallbackMap = new Map<string, string>();
+
+function safeStorageGet(key: string): string | null {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const val = window.localStorage.getItem(key);
+      if (val !== null) return val;
+    }
+  } catch (e) {
+    // Suppress mobile private browsing SecurityError
+  }
+  return memoryFallbackMap.get(key) ?? null;
+}
+
+function safeStorageSet(key: string, value: string): void {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem(key, value);
+    }
+  } catch (e) {
+    // Suppress quota exceeded or security error
+  }
+  memoryFallbackMap.set(key, value);
+}
 
 // Available Admin Users for role-based testing
 export const ADMIN_USERS: UserProfile[] = [
@@ -864,7 +950,7 @@ export class SevaStore {
   // Load helper
   private static load<T>(key: string, fallback: T): T {
     try {
-      const stored = localStorage.getItem(key);
+      const stored = safeStorageGet(key);
       if (stored) {
         return JSON.parse(stored);
       }
@@ -877,15 +963,151 @@ export class SevaStore {
   // Save helper
   private static save<T>(key: string, data: T): void {
     try {
-      localStorage.setItem(key, JSON.stringify(data));
+      safeStorageSet(key, JSON.stringify(data));
     } catch (e) {
       console.warn(`Failed writing ${key} to storage:`, e);
     }
   }
 
-  // Applications
+  // Deleted Application IDs tracker (guarantees deleted applications NEVER resurrect)
+  static getDeletedApplicationIds(): Set<string> {
+    try {
+      const raw = safeStorageGet(STORAGE_KEYS.DELETED_APPLICATIONS);
+      if (raw) {
+        const arr = JSON.parse(raw);
+        if (Array.isArray(arr)) {
+          return new Set<string>(arr.map(String));
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+    return new Set<string>();
+  }
+
+  static addDeletedApplicationId(appId: string): void {
+    if (!appId) return;
+    const current = this.getDeletedApplicationIds();
+    current.add(appId);
+    safeStorageSet(
+      STORAGE_KEYS.DELETED_APPLICATIONS,
+      JSON.stringify(Array.from(current))
+    );
+  }
+
+  // Applications (Resilient multi-key loading ensures user-entered organisations are NEVER lost, while deleted applications STAY deleted)
   static getApplications(): Application[] {
-    return this.load<Application[]>(STORAGE_KEYS.APPLICATIONS, INITIAL_APPLICATIONS);
+    const map = new Map<string, Application>();
+    const deletedIds = this.getDeletedApplicationIds();
+
+    // Step 1: Base fallback seed data (exclude any deleted applications)
+    for (const app of INITIAL_APPLICATIONS) {
+      if (app && app.id && !deletedIds.has(app.id)) {
+        map.set(app.id, app);
+      }
+    }
+
+    // Step 2: Check all known legacy/alternative keys FIRST so older data is loaded as a baseline
+    const legacyKeys = [
+      'seva_applications_backup',
+      'seva_applications_v0',
+      'seva_org_applications',
+      'seva_applications_store',
+      'applications',
+      'seva_apps',
+      'seva_applications',
+    ];
+
+    for (const lk of legacyKeys) {
+      const raw = safeStorageGet(lk);
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            for (const item of parsed) {
+              if (item && item.id && !deletedIds.has(item.id)) {
+                map.set(item.id, item);
+              }
+            }
+          }
+        } catch (e) {
+          console.warn(`Error reading legacy key ${lk}:`, e);
+        }
+      }
+    }
+
+    // Step 3: Scan browser localStorage for any other keys with application records
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        for (let i = 0; i < window.localStorage.length; i++) {
+          const k = window.localStorage.key(i);
+          if (k && (k.includes('application') || k.includes('seva_app') || k.includes('organis'))) {
+            if (
+              !legacyKeys.includes(k) &&
+              k !== STORAGE_KEYS.APPLICATIONS &&
+              k !== STORAGE_KEYS.DELETED_APPLICATIONS
+            ) {
+              try {
+                const val = window.localStorage.getItem(k);
+                if (val && val.startsWith('[')) {
+                  const arr = JSON.parse(val);
+                  if (
+                    Array.isArray(arr) &&
+                    arr.length > 0 &&
+                    (arr[0].name_of_organization || arr[0].contact_person_name)
+                  ) {
+                    for (const item of arr) {
+                      if (item && (item.id || item.name_of_organization)) {
+                        const id = item.id || `SEVA-RESTORED-${map.size + 1}`;
+                        if (!deletedIds.has(id)) {
+                          map.set(id, { ...item, id });
+                        }
+                      }
+                    }
+                  }
+                }
+              } catch (e) {
+                // Ignore parse errors
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      // Ignore private browsing restrictions
+    }
+
+    // Step 4: READ PRIMARY STORAGE KEY LAST (HIGHEST PRECEDENCE)
+    // Primary storage key (seva_applications_v1) contains the user's latest submissions and updates!
+    const primaryRaw = safeStorageGet(STORAGE_KEYS.APPLICATIONS);
+    if (primaryRaw) {
+      try {
+        const parsed = JSON.parse(primaryRaw);
+        if (Array.isArray(parsed)) {
+          for (const item of parsed) {
+            if (item && item.id && !deletedIds.has(item.id)) {
+              // Overwrite with primary storage key's newest data
+              map.set(item.id, item);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Error reading primary applications:', e);
+      }
+    }
+
+    // Absolute Guarantee: Ensure NO deleted IDs ever exist in the returned list
+    for (const did of deletedIds) {
+      map.delete(did);
+    }
+
+    const merged = Array.from(map.values());
+
+    // Synchronize to primary and backup keys
+    safeStorageSet(STORAGE_KEYS.APPLICATIONS, JSON.stringify(merged));
+    safeStorageSet('seva_applications', JSON.stringify(merged));
+
+    return merged;
   }
 
   static getApplicationById(id: string): Application | undefined {
@@ -895,8 +1117,22 @@ export class SevaStore {
 
   static submitApplication(newAppData: Omit<Application, 'id' | 'created_at' | 'updated_at' | 'status' | 'priority' | 'status_history' | 'documents'> & { documents?: any[] }): Application {
     const list = this.getApplications();
-    const count = list.length + 1;
-    const formattedId = `SEVA-2026-${String(count).padStart(4, '0')}`;
+    
+    // Calculate next collision-free sequence number based on existing IDs
+    let maxNum = 0;
+    for (const a of list) {
+      if (a && a.id) {
+        const match = a.id.match(/SEVA-2026-(\d+)/);
+        if (match) {
+          const num = parseInt(match[1], 10);
+          if (!isNaN(num) && num > maxNum) {
+            maxNum = num;
+          }
+        }
+      }
+    }
+    const nextSeq = Math.max(maxNum + 1, list.length + 1);
+    const formattedId = `SEVA-2026-${String(nextSeq).padStart(4, '0')}`;
     const now = new Date().toISOString();
 
     const application: Application = {
@@ -920,8 +1156,25 @@ export class SevaStore {
       ],
     };
 
-    const updatedList = [application, ...list];
+    const updatedList = [application, ...list.filter((a) => a.id !== formattedId)];
+    
+    // Save to primary key and backup keys
     this.save(STORAGE_KEYS.APPLICATIONS, updatedList);
+    safeStorageSet('seva_applications', JSON.stringify(updatedList));
+    safeStorageSet('applications', JSON.stringify(updatedList));
+
+    // Dispatch window event so any open admin console updates immediately
+    if (typeof window !== 'undefined') {
+      try {
+        window.dispatchEvent(
+          new CustomEvent('seva_store_updated', {
+            detail: { type: 'application_submitted', app: application },
+          })
+        );
+      } catch (e) {
+        // ignore
+      }
+    }
 
     // Also log automatic acknowledgement email
     this.sendEmail({
@@ -935,6 +1188,138 @@ export class SevaStore {
     });
 
     return application;
+  }
+
+  static syncRemoteApplications(remoteApps: Application[]): { mergedCount: number; newCount: number } {
+    if (!remoteApps || !Array.isArray(remoteApps) || remoteApps.length === 0) {
+      return { mergedCount: 0, newCount: 0 };
+    }
+    const local = this.getApplications();
+    const deletedIds = this.getDeletedApplicationIds();
+    const map = new Map<string, Application>();
+    for (const app of local) {
+      if (app && app.id && !deletedIds.has(app.id)) map.set(app.id, app);
+    }
+    let newCount = 0;
+    for (const rem of remoteApps) {
+      if (rem && rem.id && !deletedIds.has(rem.id)) {
+        if (!map.has(rem.id)) {
+          newCount++;
+        }
+        const existing = map.get(rem.id);
+        if (
+          !existing ||
+          new Date(rem.updated_at || rem.created_at).getTime() >=
+            new Date(existing.updated_at || existing.created_at).getTime()
+        ) {
+          map.set(rem.id, { ...existing, ...rem });
+        }
+      }
+    }
+    const merged = Array.from(map.values());
+    safeStorageSet(STORAGE_KEYS.APPLICATIONS, JSON.stringify(merged));
+    safeStorageSet('seva_applications', JSON.stringify(merged));
+    return { mergedCount: merged.length, newCount };
+  }
+
+  static bulkImportApplications(importedList: Partial<Application>[]): { successCount: number; importedApps: Application[] } {
+    const list = this.getApplications();
+    const now = new Date().toISOString();
+    let counter = list.length;
+    const newApps: Application[] = [];
+
+    for (const item of importedList) {
+      counter += 1;
+      const formattedId = item.id && item.id.startsWith('SEVA-') ? item.id : `SEVA-2026-${String(counter).padStart(4, '0')}`;
+
+      const rawAreas = item.key_areas_of_work;
+      const parsedAreas = Array.isArray(rawAreas)
+        ? rawAreas
+        : typeof rawAreas === 'string'
+        ? (rawAreas as string).split(',').map((s) => s.trim()).filter(Boolean)
+        : ['Agriculture', 'Livelihoods'];
+
+      const rawSupport = item.support_type_seeking;
+      const parsedSupport = Array.isArray(rawSupport)
+        ? rawSupport
+        : typeof rawSupport === 'string'
+        ? (rawSupport as string).split(',').map((s) => s.trim()).filter(Boolean)
+        : [item.first_priority_support || 'MIS and Digital Data Management'];
+
+      const rawTools = item.current_digital_tools;
+      const parsedTools = Array.isArray(rawTools)
+        ? rawTools
+        : typeof rawTools === 'string'
+        ? (rawTools as string).split(',').map((s) => s.trim()).filter(Boolean)
+        : ['Excel/Spreadsheets', 'WhatsApp'];
+
+      const app: Application = {
+        id: formattedId,
+        created_at: item.created_at || now,
+        updated_at: now,
+        status: item.status || 'New Application',
+        priority: item.priority || 'Medium',
+        assigned_reviewer_id: item.assigned_reviewer_id || '',
+        assigned_reviewer_name: item.assigned_reviewer_name || '',
+
+        name_of_organization: item.name_of_organization || 'Unnamed Organisation',
+        type_of_organization: item.type_of_organization || 'Trust',
+        year_of_establishment: Number(item.year_of_establishment) || new Date().getFullYear(),
+        registration_number: item.registration_number || '',
+        state: item.state || 'Maharashtra',
+        district: item.district || '',
+        organisation_address: item.organisation_address || '',
+        organisation_website: item.organisation_website || '',
+        organisation_email: item.organisation_email || '',
+
+        contact_person_name: item.contact_person_name || '',
+        designation: item.designation || 'Coordinator',
+        contact_number: String(item.contact_number || ''),
+
+        brief_description: item.brief_description || '',
+        key_areas_of_work: parsedAreas.length > 0 ? parsedAreas : ['Rural Development'],
+        villages_covered: Number(item.villages_covered) || 0,
+        geographical_area_of_operation: item.geographical_area_of_operation || '',
+        annual_beneficiaries_reached: Number(item.annual_beneficiaries_reached) || 0,
+        primary_beneficiaries: item.primary_beneficiaries || 'Rural Communities',
+
+        has_website: Boolean(item.has_website),
+        has_mis_system: Boolean(item.has_mis_system),
+        current_digital_tools: parsedTools,
+
+        major_technology_challenges: item.major_technology_challenges || '',
+        support_type_seeking: parsedSupport,
+        description_of_solution_needed: item.description_of_solution_needed || '',
+        main_problem_to_solve: item.main_problem_to_solve || '',
+        intended_users: item.intended_users || 'Field animators and coordinators',
+        estimated_users_count: Number(item.estimated_users_count) || 5,
+
+        has_previous_digital_project: Boolean(item.has_previous_digital_project),
+        previous_digital_project_details: item.previous_digital_project_details || '',
+
+        requirement_urgency: (item.requirement_urgency as any) || 'Immediate (Within 1 month)',
+        preferred_timeline: item.preferred_timeline || '3 to 6 months',
+        first_priority_support: item.first_priority_support || 'MIS and Digital Data Management',
+
+        documents: item.documents || [],
+        status_history: item.status_history || [
+          {
+            id: `sh-${Date.now()}-${counter}`,
+            application_id: formattedId,
+            previous_status: 'None',
+            new_status: item.status || 'New Application',
+            changed_by: 'Excel Bulk Import (Admin Portal)',
+            changed_at: now,
+            internal_remarks: 'Imported via Excel/CSV Bulk Data Upload in Admin Portal.',
+          },
+        ],
+      };
+      newApps.push(app);
+    }
+
+    const updatedList = [...newApps, ...list];
+    this.save(STORAGE_KEYS.APPLICATIONS, updatedList);
+    return { successCount: newApps.length, importedApps: newApps };
   }
 
   static updateApplicationStatus(
@@ -970,6 +1355,104 @@ export class SevaStore {
     list[index] = updatedApp;
     this.save(STORAGE_KEYS.APPLICATIONS, list);
     return updatedApp;
+  }
+
+  static deleteApplication(appId: string): boolean {
+    if (!appId) return false;
+
+    // 1. Add to permanent deleted blacklist
+    this.addDeletedApplicationId(appId);
+
+    // 2. Filter from primary list and save
+    const currentList = this.getApplications();
+    const filtered = currentList.filter((a) => a.id !== appId);
+    this.save(STORAGE_KEYS.APPLICATIONS, filtered);
+    safeStorageSet('seva_applications', JSON.stringify(filtered));
+
+    // 3. Purge from ALL legacy keys in localStorage immediately
+    const legacyKeys = [
+      'seva_applications',
+      'applications',
+      'seva_apps',
+      'seva_applications_backup',
+      'seva_applications_v0',
+      'seva_org_applications',
+      'seva_applications_store',
+    ];
+    for (const lk of legacyKeys) {
+      try {
+        const raw = safeStorageGet(lk);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            const purged = parsed.filter((item: any) => item && item.id !== appId);
+            safeStorageSet(lk, JSON.stringify(purged));
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    // 4. Scan and purge from any other application keys in localStorage
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        for (let i = 0; i < window.localStorage.length; i++) {
+          const k = window.localStorage.key(i);
+          if (
+            k &&
+            (k.includes('application') || k.includes('seva_app')) &&
+            k !== STORAGE_KEYS.DELETED_APPLICATIONS
+          ) {
+            try {
+              const val = window.localStorage.getItem(k);
+              if (val && val.startsWith('[')) {
+                const arr = JSON.parse(val);
+                if (Array.isArray(arr)) {
+                  const purged = arr.filter((x: any) => x && x.id !== appId);
+                  window.localStorage.setItem(k, JSON.stringify(purged));
+                }
+              }
+            } catch (e) {
+              // ignore
+            }
+          }
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    // 5. If Supabase is configured, delete from remote Supabase table so sync never restores it
+    try {
+      import('./supabase')
+        .then(({ getSupabaseClient, isSupabaseConfigured }) => {
+          if (isSupabaseConfigured()) {
+            const client = getSupabaseClient();
+            client.from('applications').delete().eq('id', appId).then(({ error }) => {
+              if (error) console.warn('Supabase remote delete error:', error);
+            });
+          }
+        })
+        .catch(() => {});
+    } catch (e) {
+      // ignore
+    }
+
+    // 6. Broadcast event so any open tab/layout updates instantly
+    if (typeof window !== 'undefined') {
+      try {
+        window.dispatchEvent(
+          new CustomEvent('seva_store_updated', {
+            detail: { type: 'application_deleted', id: appId },
+          })
+        );
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    return true;
   }
 
   static saveApplicationReview(appId: string, review: ApplicationReview, updatedPriority?: Application['priority']): Application | null {
@@ -1069,10 +1552,13 @@ export class SevaStore {
     application_id?: string;
     recipient_email: string;
     recipient_name: string;
+    cc_email?: string;
     subject: string;
     body: string;
     template_used?: string;
     sent_by: string;
+    status?: EmailLog['status'];
+    delivery_method?: string;
   }): EmailLog {
     const list = this.getEmailLogs();
     const log: EmailLog = {
@@ -1080,16 +1566,40 @@ export class SevaStore {
       application_id: payload.application_id || '',
       recipient_email: payload.recipient_email,
       recipient_name: payload.recipient_name,
+      cc_email: payload.cc_email || 'seva.ecology@gmail.com',
       subject: payload.subject,
       body: payload.body,
       sent_at: new Date().toISOString(),
       sent_by: payload.sent_by,
-      status: 'Delivered',
+      status: payload.status || 'Dispatched via Gmail',
+      delivery_method: payload.delivery_method || 'Gmail Web (CC: seva.ecology@gmail.com)',
       template_used: payload.template_used,
     };
     const updated = [log, ...list];
     this.save(STORAGE_KEYS.EMAIL_LOGS, updated);
     return log;
+  }
+
+  static deleteEmailLog(id: string): void {
+    const list = this.getEmailLogs();
+    const updated = list.filter((l) => l.id !== id);
+    this.save(STORAGE_KEYS.EMAIL_LOGS, updated);
+  }
+
+  static clearEmailLogs(): void {
+    this.save(STORAGE_KEYS.EMAIL_LOGS, []);
+  }
+
+  // Official Email Signature (appended at the end of all outgoing messages)
+  static getEmailSignature(): string {
+    return this.load<string>(
+      STORAGE_KEYS.EMAIL_SIGNATURE,
+      `Warm regards,\nTechnology Support Secretariat\nSustainable Ecology & Village Advancement (SEVA)\n31 B, Jalka, Ralegaon, Dist. Yavatmal, Maharashtra – 445402\nContact: +91 8999469974 | Email: seva.ecology@gmail.com\nWebsite: https://sevavillage.org`
+    );
+  }
+
+  static saveEmailSignature(signature: string): void {
+    this.save(STORAGE_KEYS.EMAIL_SIGNATURE, signature);
   }
 
   // Active Projects (Part 10)
@@ -1233,7 +1743,23 @@ export class SevaStore {
 
   // Knowledge Resources (Part 11 & Part 14 CMS)
   static getResources(): ResourceItem[] {
-    return this.load<ResourceItem[]>(STORAGE_KEYS.RESOURCES, INITIAL_RESOURCES);
+    const list = this.load<ResourceItem[]>(STORAGE_KEYS.RESOURCES, INITIAL_RESOURCES);
+    const existingIds = new Set(list.map((r) => r.id));
+    let hasAdditions = false;
+
+    // Merge any missing core resources (e.g. newly restored 4 sections)
+    for (const item of INITIAL_RESOURCES) {
+      if (!existingIds.has(item.id)) {
+        list.push(item);
+        existingIds.add(item.id);
+        hasAdditions = true;
+      }
+    }
+
+    if (hasAdditions) {
+      this.save(STORAGE_KEYS.RESOURCES, list);
+    }
+    return list;
   }
 
   static saveResource(resource: ResourceItem): void {
@@ -1300,5 +1826,34 @@ export class SevaStore {
 
   static setCurrentUser(user: UserProfile): void {
     this.save(STORAGE_KEYS.CURRENT_USER, user);
+  }
+
+  // Technology Support Agreements & Budget Generator
+  static getAgreements(): TechnologySupportAgreement[] {
+    return this.load<TechnologySupportAgreement[]>(STORAGE_KEYS.AGREEMENTS, [INITIAL_AGREEMENT]);
+  }
+
+  static getAgreementById(id: string): TechnologySupportAgreement | undefined {
+    const list = this.getAgreements();
+    return list.find((a) => a.id === id);
+  }
+
+  static saveAgreement(agreement: TechnologySupportAgreement): void {
+    const list = this.getAgreements();
+    const idx = list.findIndex((a) => a.id === agreement.id);
+    let updated: TechnologySupportAgreement[];
+    if (idx >= 0) {
+      updated = [...list];
+      updated[idx] = { ...agreement, updated_at: new Date().toISOString() };
+    } else {
+      updated = [{ ...agreement, created_at: new Date().toISOString(), updated_at: new Date().toISOString() }, ...list];
+    }
+    this.save(STORAGE_KEYS.AGREEMENTS, updated);
+  }
+
+  static deleteAgreement(id: string): void {
+    const list = this.getAgreements();
+    const updated = list.filter((a) => a.id !== id);
+    this.save(STORAGE_KEYS.AGREEMENTS, updated);
   }
 }

@@ -21,6 +21,9 @@ import {
   insertApplicationToSupabase,
   QUICK_SETUP_SQL,
   SupabaseHealthStatus,
+  getSupabaseAnonKey,
+  saveSupabaseAnonKey,
+  isSupabaseConfigured,
 } from '../../services/supabase';
 import { SevaStore } from '../../services/store';
 
@@ -33,11 +36,21 @@ export const DatabaseSchemaModal: React.FC = () => {
   const [syncing, setSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
 
+  const [apiKeyInput, setApiKeyInput] = useState<string>(getSupabaseAnonKey());
+  const [keySavedToast, setKeySavedToast] = useState(false);
+
   const runHealthCheck = async () => {
     setChecking(true);
     const res = await checkSupabaseHealth();
     setHealthStatus(res);
     setChecking(false);
+  };
+
+  const handleSaveApiKey = () => {
+    saveSupabaseAnonKey(apiKeyInput);
+    setKeySavedToast(true);
+    setTimeout(() => setKeySavedToast(false), 3000);
+    runHealthCheck();
   };
 
   useEffect(() => {
@@ -140,6 +153,54 @@ export const DatabaseSchemaModal: React.FC = () => {
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
+        </div>
+
+        {/* Supabase Anon Key Configuration Input */}
+        <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span className="text-xs font-bold text-stone-800 flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-[#0B6643]" />
+                <span>Supabase Project Anon Key (API गुप्त की)</span>
+              </span>
+              <p className="text-[11px] text-stone-500 mt-0.5">
+                सर्व उपकरणांवर (Mobile/Laptop) अर्ज थेट सिंक होण्यासाठी तुमची Supabase Project API Anon Key खाली टाका.
+              </p>
+            </div>
+            <a
+              href={`https://supabase.com/dashboard/project/${SUPABASE_PROJECT_ID}/settings/api`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs font-bold text-[#0B6643] hover:underline flex items-center gap-1 shrink-0"
+            >
+              <span>Supabase वरून Key मिळवा</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <input
+              type="text"
+              placeholder="Paste your Supabase anon public key here (e.g. eyJhbGciOiJIUzI1NiIsInR5cCI...)"
+              value={apiKeyInput}
+              onChange={(e) => setApiKeyInput(e.target.value)}
+              className="flex-1 px-3.5 py-2 text-xs font-mono rounded-lg border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#0B6643]/30 focus:border-[#0B6643]"
+            />
+            <button
+              onClick={handleSaveApiKey}
+              className="px-4 py-2 bg-[#0B6643] hover:bg-[#064E36] text-white text-xs font-bold rounded-lg cursor-pointer transition-colors shadow-xs shrink-0 flex items-center justify-center gap-1.5"
+            >
+              <Check className="w-3.5 h-3.5" />
+              <span>Key सेव्ह करा व तपासा</span>
+            </button>
+          </div>
+
+          {keySavedToast && (
+            <p className="text-xs text-emerald-700 font-bold flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>API Key यशस्वीरीत्या सेव्ह केली गेली! कनेक्शन तपासत आहे...</span>
+            </p>
+          )}
         </div>
 
         {/* Live Diagnostics Box */}

@@ -14,11 +14,13 @@ import {
   UserCheck,
   ChevronRight,
   MessageSquare,
+  FileCheck,
 } from 'lucide-react';
 import { SevaStore, ADMIN_USERS } from '../../services/store';
 import { Application, UserProfile, Meeting, ProgrammeProject } from '../../types';
 import { AdminOverview } from './AdminOverview';
 import { ApplicationsManager } from './ApplicationsManager';
+import { AgreementBudgetManager } from './AgreementBudgetManager';
 import { InquiriesManager } from './InquiriesManager';
 import { ApplicationDetailModal } from './ApplicationDetailModal';
 import { MeetingsManager } from './MeetingsManager';
@@ -26,6 +28,8 @@ import { EmailManager } from './EmailManager';
 import { ProjectsTracker } from './ProjectsTracker';
 import { ContentManager } from './ContentManager';
 import { DatabaseSchemaModal } from './DatabaseSchemaModal';
+import { ExcelImportModal } from './ExcelImportModal';
+import { fetchRemoteApplications, isSupabaseConfigured } from '../../services/supabase';
 
 interface AdminLayoutProps {
   onExitAdmin: () => void;
@@ -33,7 +37,7 @@ interface AdminLayoutProps {
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'applications' | 'inquiries' | 'meetings' | 'emails' | 'projects' | 'cms' | 'database'
+    'overview' | 'applications' | 'agreements' | 'inquiries' | 'meetings' | 'emails' | 'projects' | 'cms' | 'database'
   >('overview');
 
   const [currentUser, setCurrentUser] = useState<UserProfile>(SevaStore.getCurrentUser());
@@ -46,6 +50,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
   const [preselectedAppForMeeting, setPreselectedAppForMeeting] = useState<Application | null>(null);
   const [preselectedAppForEmail, setPreselectedAppForEmail] = useState<Application | null>(null);
+  const [isExcelModalOpen, setIsExcelModalOpen] = useState(false);
 
   const refreshAll = () => {
     setApplications(SevaStore.getApplications());
@@ -53,6 +58,37 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
     setMeetings(SevaStore.getMeetings());
     setContactMessages(SevaStore.getContactMessages());
   };
+
+  // Auto-refresh when applications are submitted in another tab, window, or on the portal
+  React.useEffect(() => {
+    const handleStoreChange = () => {
+      refreshAll();
+    };
+
+    window.addEventListener('storage', handleStoreChange);
+    window.addEventListener('seva_store_updated', handleStoreChange);
+
+    // Initial check & auto-pull from Supabase if configured
+    if (isSupabaseConfigured()) {
+      fetchRemoteApplications()
+        .then((remoteApps) => {
+          if (remoteApps && remoteApps.length > 0) {
+            const res = SevaStore.syncRemoteApplications(remoteApps);
+            if (res.newCount > 0) {
+              refreshAll();
+            }
+          }
+        })
+        .catch((e) => {
+          console.warn('Background remote sync skipped:', e);
+        });
+    }
+
+    return () => {
+      window.removeEventListener('storage', handleStoreChange);
+      window.removeEventListener('seva_store_updated', handleStoreChange);
+    };
+  }, []);
 
   const handleUpdateApp = (updated: Application) => {
     refreshAll();
@@ -92,14 +128,22 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
   const newCount = applications.filter((a) => a.status === 'New Application').length;
 
   return (
-    <div className="min-h-screen bg-[#F4F6F4] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F1F5F9] flex flex-col font-sans">
       {/* Top Admin Header Bar */}
       <header className="bg-[#0F3825] text-white sticky top-0 z-40 border-b border-[#184E34] shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand & Area */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#184E34] flex items-center justify-center font-extrabold text-lg border border-emerald-400/40 text-white">
-              S
+            <div className="w-9 h-9 rounded-xl bg-[#E8F5E9] p-0.5 flex items-center justify-center shrink-0 border border-emerald-300/60 shadow-xs">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-7 h-7">
+                <path d="M24 4 C14 12 10 24 16 36 C22 48 38 44 42 28 C46 12 34 6 24 4 Z" fill="#52B788" opacity="0.85" />
+                <circle cx="12" cy="24" r="2.5" fill="#F59E0B" />
+                <circle cx="36" cy="24" r="2.5" fill="#F59E0B" />
+                <circle cx="24" cy="12" r="2.5" fill="#38BDF8" />
+                <text x="24" y="32" textAnchor="middle" fill="#FFFFFF" fontSize="22" fontWeight="900" fontFamily="sans-serif">
+                  S
+                </text>
+              </svg>
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -172,6 +216,18 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
             {newCount > 0 && (
               <span className="w-2 h-2 rounded-full bg-amber-500 absolute top-1.5 right-1.5 animate-ping" />
             )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('agreements')}
+            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap shrink-0 transition-all cursor-pointer flex items-center gap-2 ${
+              activeTab === 'agreements'
+                ? 'bg-[#184E34] text-white shadow-xs'
+                : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900'
+            }`}
+          >
+            <FileCheck className="w-3.5 h-3.5 text-amber-500" />
+            <span>करार व बजेट (Agreement &amp; Budget)</span>
           </button>
 
           <button
@@ -267,6 +323,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
             meetings={meetings}
             onSelectApplication={(app) => setSelectedApp(app)}
             onNavigateTab={(tab) => setActiveTab(tab as any)}
+            onOpenExcelImport={() => setIsExcelModalOpen(true)}
           />
         )}
 
@@ -274,6 +331,18 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
           <ApplicationsManager
             applications={applications}
             onSelectApplication={(app) => setSelectedApp(app)}
+            onRefresh={refreshAll}
+          />
+        )}
+
+        {activeTab === 'agreements' && (
+          <AgreementBudgetManager
+            applications={applications}
+            onSelectApplicationForDetail={(app) => setSelectedApp(app)}
+            onNavigateToEmails={(app) => {
+              setPreselectedAppForEmail(app);
+              setActiveTab('emails');
+            }}
           />
         )}
 
@@ -318,8 +387,25 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
           onScheduleMeeting={handleScheduleMeetingFromApp}
           onComposeEmail={handleComposeEmailFromApp}
           onConvertToProject={handleConvertToProjectFromApp}
+          onCreateAgreement={(app) => {
+            setSelectedApp(null);
+            setActiveTab('agreements');
+          }}
+          onDeleteApp={() => {
+            setSelectedApp(null);
+            refreshAll();
+          }}
         />
       )}
+
+      {/* Global Excel / CSV Bulk Import Modal */}
+      <ExcelImportModal
+        isOpen={isExcelModalOpen}
+        onClose={() => setIsExcelModalOpen(false)}
+        onImportSuccess={() => {
+          refreshAll();
+        }}
+      />
     </div>
   );
 };

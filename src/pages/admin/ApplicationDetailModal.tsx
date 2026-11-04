@@ -16,6 +16,8 @@ import {
   Save,
   ShieldCheck,
   Check,
+  Trash2,
+  FileCheck,
 } from 'lucide-react';
 import { Application, ApplicationStatus, PriorityLevel, ApplicationReview } from '../../types';
 import { SevaStore } from '../../services/store';
@@ -27,6 +29,8 @@ interface ApplicationDetailModalProps {
   onScheduleMeeting: (app: Application) => void;
   onComposeEmail: (app: Application) => void;
   onConvertToProject: (app: Application) => void;
+  onCreateAgreement?: (app: Application) => void;
+  onDeleteApp?: (appId: string) => void;
 }
 
 export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
@@ -36,8 +40,11 @@ export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
   onScheduleMeeting,
   onComposeEmail,
   onConvertToProject,
+  onCreateAgreement,
+  onDeleteApp,
 }) => {
   const [activeTab, setActiveTab] = useState<'details' | 'internal_review' | 'workflow' | 'history'>('details');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // Status Change State
   const [targetStatus, setTargetStatus] = useState<ApplicationStatus>(application.status);
@@ -150,6 +157,12 @@ export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
     }
   };
 
+  const handleDeleteApplication = () => {
+    SevaStore.deleteApplication(application.id);
+    onDeleteApp?.(application.id);
+    onClose();
+  };
+
   const allStatuses: ApplicationStatus[] = [
     'New Application',
     'Under Initial Review',
@@ -189,6 +202,15 @@ export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowDeleteConfirm(true)}
+              className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 hover:text-red-900 text-xs font-bold border border-red-200 flex items-center gap-1.5 cursor-pointer transition-all shadow-2xs"
+              title="हा अर्ज सिस्टीममधून कायमचा डिलिट करा (Delete Application)"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-red-600" />
+              <span>{application.status === 'Rejected' ? 'रिजेक्ट अर्ज डिलिट करा' : 'अर्ज डिलिट करा'}</span>
+            </button>
             <button
               onClick={() => window.print()}
               className="p-2 text-stone-600 hover:text-stone-900 hover:bg-stone-200 rounded-lg transition-colors cursor-pointer"
@@ -267,6 +289,18 @@ export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
               <Mail className="w-3.5 h-3.5 text-stone-600" />
               <span>Send Email</span>
             </button>
+
+            {onCreateAgreement && (
+              <button
+                type="button"
+                onClick={() => onCreateAgreement(application)}
+                className="px-3 py-1.5 rounded-lg border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-[#184E34] text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                title="या संस्थेसाठी अधिकृत करारपत्र व बजेट जनरेट करा"
+              >
+                <FileCheck className="w-3.5 h-3.5 text-emerald-700" />
+                <span>करार व बजेट तयार करा</span>
+              </button>
+            )}
 
             {application.status === 'Approved' && (
               <button
@@ -799,6 +833,54 @@ export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-stone-200 space-y-4 animate-in fade-in zoom-in-95">
+            <div className="w-14 h-14 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto border border-red-200 shadow-xs">
+              <Trash2 className="w-7 h-7" />
+            </div>
+
+            <div className="text-center space-y-1.5">
+              <h3 className="text-lg font-bold text-stone-900">
+                रिजेक्ट केलेला अर्ज कायमचा डिलिट करा
+              </h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                तुम्हाला खात्री आहे का की तुम्ही <strong>'{application.name_of_organization}'</strong> (ID: {application.id}) या संस्थेचा अर्ज सिस्टीममधून कायमचा काढू इच्छिता?
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-red-50 rounded-2xl border border-red-200 text-xs text-red-800 space-y-1">
+              <div className="font-bold flex items-center gap-1.5 text-red-900">
+                <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
+                <span>सावधान:</span>
+              </div>
+              <p className="text-[11px] leading-relaxed">
+                हा अर्ज डिलिट केल्यानंतर त्याची संपूर्ण माहिती व ऑडिट हिस्ट्री सिस्टीममधून कायमची नष्ट होईल.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowDeleteConfirm(false)}
+                className="px-4 py-2.5 rounded-xl border border-stone-300 hover:bg-stone-100 text-stone-700 text-xs font-bold transition-colors cursor-pointer"
+              >
+                रद्द करा (Cancel)
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteApplication}
+                className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5 active:scale-95"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>होय, कायमचा डिलिट करा</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

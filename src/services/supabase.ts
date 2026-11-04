@@ -7,16 +7,73 @@ export const SUPABASE_PROJECT_ID =
 export const SUPABASE_URL =
   import.meta.env.VITE_SUPABASE_URL || 'https://eusqtayzaojdgucpvomg.supabase.co';
 
-export const SUPABASE_KEY =
-  import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-supabase-anon-key-placeholder';
+export function getSupabaseAnonKey(): string {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const stored = window.localStorage.getItem('seva_supabase_anon_key');
+      if (stored && stored.trim().length > 10) return stored.trim();
+    }
+  } catch (e) {
+    // Ignore private browsing restrictions
+  }
+  const envKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  if (envKey && envKey !== 'your-supabase-anon-key-placeholder' && envKey !== 'your-supabase-anon-key-here') {
+    return envKey;
+  }
+  return '';
+}
 
-// Initialize Supabase Client
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+export function saveSupabaseAnonKey(key: string): void {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      if (key && key.trim()) {
+        window.localStorage.setItem('seva_supabase_anon_key', key.trim());
+      } else {
+        window.localStorage.removeItem('seva_supabase_anon_key');
+      }
+    }
+  } catch (e) {
+    // Ignore private browsing restrictions
+  }
+  reinitSupabaseClient();
+}
+
+export function isSupabaseConfigured(): boolean {
+  const key = getSupabaseAnonKey();
+  return Boolean(key && key.length > 20 && key !== 'your-supabase-anon-key-placeholder' && key !== 'your-supabase-anon-key-here');
+}
+
+// Client cache and reinitialization
+let supabaseClientInstance = createClient(
+  SUPABASE_URL,
+  getSupabaseAnonKey() || 'placeholder-anon-key',
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  }
+);
+
+export function getSupabaseClient() {
+  return supabaseClientInstance;
+}
+
+export function reinitSupabaseClient() {
+  supabaseClientInstance = createClient(
+    SUPABASE_URL,
+    getSupabaseAnonKey() || 'placeholder-anon-key',
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+      },
+    }
+  );
+  return supabaseClientInstance;
+}
+
+export const supabase = supabaseClientInstance;
 
 export interface SupabaseHealthStatus {
   connected: boolean;
@@ -24,6 +81,7 @@ export interface SupabaseHealthStatus {
   url: string;
   hasApplicationsTable: boolean;
   hasContactTable: boolean;
+  isKeyConfigured: boolean;
   errorMessage?: string;
   details?: string;
 }
@@ -32,32 +90,43 @@ export interface SupabaseHealthStatus {
  * Checks connection status to the Supabase backend and tests table availability
  */
 export async function checkSupabaseHealth(): Promise<SupabaseHealthStatus> {
+  const isKeyReady = isSupabaseConfigured();
+  const currentKey = getSupabaseAnonKey();
+
   const result: SupabaseHealthStatus = {
     connected: false,
     projectId: SUPABASE_PROJECT_ID,
     url: SUPABASE_URL,
     hasApplicationsTable: false,
     hasContactTable: false,
+    isKeyConfigured: isKeyReady,
   };
+
+  if (!isKeyReady) {
+    result.errorMessage = 'Supabase Anon Key is not yet configured. Please enter your project Anon Key below to enable cloud synchronization.';
+    result.details = 'Get your Project API Anon Key from Supabase Dashboard > Settings > API.';
+    return result;
+  }
 
   try {
     // 1. Test basic connectivity
     const ping = await fetch(`${SUPABASE_URL}/rest/v1/`, {
       headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
+        apikey: currentKey,
+        Authorization: `Bearer ${currentKey}`,
       },
     });
 
     if (ping.status === 200 || ping.status === 204) {
       result.connected = true;
     } else {
-      result.errorMessage = `Supabase returned HTTP ${ping.status}`;
+      result.errorMessage = `Supabase returned HTTP ${ping.status} (Invalid API Key or project paused)`;
       return result;
     }
 
     // 2. Check if applications table exists
-    const appCheck = await supabase.from('applications').select('id').limit(1);
+    const client = getSupabaseClient();
+    const appCheck = await client.from('applications').select('id').limit(1);
     if (!appCheck.error) {
       result.hasApplicationsTable = true;
     } else if (appCheck.error.code === 'PGRST205') {
@@ -68,7 +137,7 @@ export async function checkSupabaseHealth(): Promise<SupabaseHealthStatus> {
     }
 
     // 3. Check if contact_messages table exists
-    const contactCheck = await supabase.from('contact_messages').select('id').limit(1);
+    const contactCheck = await client.from('contact_messages').select('id').limit(1);
     if (!contactCheck.error) {
       result.hasContactTable = true;
     } else {
@@ -88,7 +157,11 @@ export async function checkSupabaseHealth(): Promise<SupabaseHealthStatus> {
  */
 export async function insertApplicationToSupabase(
   app: Application
-): Promise<{ success: boolean; error?: string; code?: string; data?: any }> {
+): Promise<{ success: boolean; error?: string; code?: string; data?: any; skipped?: boolean }> {
+  if (!isSupabaseConfigured()) {
+    return { success: false, skipped: true, error: 'Supabase Anon Key is not configured yet.' };
+  }
+
   try {
     const payload = {
       id: app.id,
@@ -145,7 +218,8 @@ export async function insertApplicationToSupabase(
       updated_at: app.updated_at,
     };
 
-    const { data, error } = await supabase.from('applications').insert([payload]);
+    const client = getSupabaseClient();
+    const { data, error } = await client.from('applications').insert([payload]);
 
     if (error) {
       console.warn('Supabase insert application returned error:', error);
@@ -164,7 +238,11 @@ export async function insertApplicationToSupabase(
  */
 export async function insertContactMessageToSupabase(
   msg: ContactMessage
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ success: boolean; error?: string; skipped?: boolean }> {
+  if (!isSupabaseConfigured()) {
+    return { success: false, skipped: true, error: 'Supabase Anon Key is not configured yet.' };
+  }
+
   try {
     const payload = {
       id: msg.id,
@@ -178,7 +256,8 @@ export async function insertContactMessageToSupabase(
       status: msg.status,
     };
 
-    const { error } = await supabase.from('contact_messages').insert([payload]);
+    const client = getSupabaseClient();
+    const { error } = await client.from('contact_messages').insert([payload]);
 
     if (error) {
       console.warn('Supabase insert contact message error:', error);
@@ -195,8 +274,13 @@ export async function insertContactMessageToSupabase(
  * Fetch remote applications from Supabase database
  */
 export async function fetchRemoteApplications(): Promise<Application[] | null> {
+  if (!isSupabaseConfigured()) {
+    return null;
+  }
+
   try {
-    const { data, error } = await supabase
+    const client = getSupabaseClient();
+    const { data, error } = await client
       .from('applications')
       .select('*')
       .order('created_at', { ascending: false });

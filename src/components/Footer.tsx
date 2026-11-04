@@ -14,16 +14,44 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmin }) => {
           {/* Column 1 & 2: Organization Info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#184E34] via-[#0F3825] to-[#062818] text-white flex items-center justify-center font-black text-2xl border-2 border-emerald-500/50 shadow-md">
-                S
+              <div className="w-11 h-11 rounded-2xl bg-[#E8F8F0] p-1 flex items-center justify-center shrink-0 border border-[#86EFAC] shadow-xs">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
+                  <path
+                    d="M24 6 C17 11 11 21 15 34 C18 43 30 43 33 34 C37 21 31 11 24 6 Z"
+                    fill="#2E9E6B"
+                  />
+                  <circle cx="24" cy="11.5" r="2.2" fill="#38BDF8" />
+                  <circle cx="12" cy="25" r="2.4" fill="#F59E0B" />
+                  <circle cx="36" cy="25" r="2.4" fill="#F59E0B" />
+                  <text
+                    x="24"
+                    y="32.5"
+                    textAnchor="middle"
+                    fill="#FFFFFF"
+                    fontSize="21"
+                    fontWeight="900"
+                    fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+                  >
+                    S
+                  </text>
+                </svg>
               </div>
               <div className="space-y-0.5">
                 <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white">SEVA</h3>
                 <p className="text-xs text-emerald-300 font-extrabold tracking-tight uppercase">
                   Sustainable Ecology &amp; Village Advancement
                 </p>
-                <p className="text-[11px] text-amber-300 font-bold">
-                  Technology • Digital Capacity Building • MIS • Data Management • Social Impact
+                <p className="text-[11px] text-emerald-200/90 font-bold">
+                  An Initiative of{' '}
+                  <a
+                    href="https://www.sarathisanstha.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-amber-300 hover:text-white underline inline-flex items-center gap-0.5 font-bold"
+                  >
+                    <span>Sarathi Sanstha</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
                 </p>
               </div>
             </div>
@@ -46,6 +74,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmin }) => {
               Explore
             </h4>
             <ul className="space-y-2.5 text-sm text-emerald-100/80">
+              {/* Sarathi Sanstha Link */}
+              <li>
+                <a
+                  href="https://www.sarathisanstha.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-amber-300 hover:text-white transition-colors inline-flex items-center gap-1.5 font-bold"
+                >
+                  <span>Sarathi Sanstha</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </li>
               <li>
                 <button
                   onClick={() => onNavigate('home')}

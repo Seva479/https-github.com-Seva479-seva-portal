@@ -10,18 +10,31 @@ import {
   ChevronDown,
   ArrowUpDown,
   FileSpreadsheet,
+  UploadCloud,
+  Trash2,
+  AlertTriangle,
+  RefreshCw,
+  Sparkles,
 } from 'lucide-react';
 import { Application, ApplicationStatus, PriorityLevel } from '../../types';
+import { ExcelImportModal } from './ExcelImportModal';
+import { SevaStore } from '../../services/store';
+import { fetchRemoteApplications, isSupabaseConfigured } from '../../services/supabase';
 
 interface ApplicationsManagerProps {
   applications: Application[];
   onSelectApplication: (app: Application) => void;
+  onRefresh?: () => void;
 }
 
 export const ApplicationsManager: React.FC<ApplicationsManagerProps> = ({
   applications,
   onSelectApplication,
+  onRefresh,
 }) => {
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [appToDelete, setAppToDelete] = useState<Application | null>(null);
+  const [deleteToast, setDeleteToast] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [priorityFilter, setPriorityFilter] = useState<string>('All');
@@ -56,18 +69,36 @@ export const ApplicationsManager: React.FC<ApplicationsManagerProps> = ({
     'Data Management, Documentation and Reporting Systems',
   ];
 
-  // Filtering and sorting logic
+  // Safe filtering and sorting logic
   const filtered = applications.filter((app) => {
+    if (!app) return false;
+    const orgName = (app.name_of_organization || '').toLowerCase();
+    const appId = (app.id || '').toLowerCase();
+    const contact = (app.contact_person_name || '').toLowerCase();
+    const dist = (app.district || '').toLowerCase();
+    const search = searchQuery.toLowerCase().trim();
+
     const matchesSearch =
-      app.name_of_organization.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      app.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      app.contact_person_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      app.district.toLowerCase().includes(searchQuery.toLowerCase());
+      !search ||
+      orgName.includes(search) ||
+      appId.includes(search) ||
+      contact.includes(search) ||
+      dist.includes(search);
 
     const matchesStatus = statusFilter === 'All' || app.status === statusFilter;
     const matchesPriority = priorityFilter === 'All' || app.priority === priorityFilter;
     const matchesState = stateFilter === 'All' || app.state === stateFilter;
-    const matchesSupport = supportFilter === 'All' || app.support_type_seeking.includes(supportFilter);
+    
+    let matchesSupport = true;
+    if (supportFilter !== 'All') {
+      if (Array.isArray(app.support_type_seeking)) {
+        matchesSupport = app.support_type_seeking.includes(supportFilter);
+      } else if (typeof app.support_type_seeking === 'string') {
+        matchesSupport = (app.support_type_seeking as string).includes(supportFilter);
+      } else {
+        matchesSupport = false;
+      }
+    }
 
     return matchesSearch && matchesStatus && matchesPriority && matchesState && matchesSupport;
   });
@@ -139,26 +170,100 @@ export const ApplicationsManager: React.FC<ApplicationsManagerProps> = ({
     document.body.removeChild(link);
   };
 
+  const handleDeleteConfirm = () => {
+    if (!appToDelete) return;
+    const orgName = appToDelete.name_of_organization;
+    SevaStore.deleteApplication(appToDelete.id);
+    setAppToDelete(null);
+    onRefresh?.();
+    setDeleteToast(`'${orgName}' चा रिजेक्ट झालेला अर्ज सिस्टीममधून यशस्वीरीत्या डिलिट करण्यात आला.`);
+    setTimeout(() => setDeleteToast(null), 4000);
+  };
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshToast, setRefreshToast] = useState<string | null>(null);
+
+  const handleManualRefresh = async () => {
+    setIsRefreshing(true);
+    if (isSupabaseConfigured()) {
+      try {
+        const remote = await fetchRemoteApplications();
+        if (remote && remote.length > 0) {
+          SevaStore.syncRemoteApplications(remote);
+        }
+      } catch (e) {
+        console.warn('Manual remote sync failed:', e);
+      }
+    }
+    onRefresh?.();
+    setIsRefreshing(false);
+    setRefreshToast(`डेटा रिफ्रेश झाला! एकूण ${applications.length} अर्ज नोंदवलेले आहेत.`);
+    setTimeout(() => setRefreshToast(null), 3000);
+  };
+
   return (
     <div className="space-y-6">
+      {/* Toast Notification */}
+      {(deleteToast || refreshToast) && (
+        <div className="p-3 bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-md flex items-center justify-between">
+          <span>{deleteToast || refreshToast}</span>
+          <button
+            onClick={() => {
+              setDeleteToast(null);
+              setRefreshToast(null);
+            }}
+            className="text-white hover:text-amber-200 cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Header & Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-stone-900 tracking-tight">
-            Master Application Registry
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-stone-900 tracking-tight">
+              Master Application Registry
+            </h2>
+            <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-[#0B6643] text-xs font-bold border border-emerald-300">
+              {applications.length} अर्ज
+            </span>
+          </div>
           <p className="text-xs text-stone-500">
             Manage, triage, score, and transition grassroots organisation submissions
           </p>
         </div>
 
-        <button
-          onClick={exportToCSV}
-          className="px-4 py-2 rounded-lg border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-2 cursor-pointer transition-colors shadow-xs"
-        >
-          <FileSpreadsheet className="w-4 h-4 text-[#0B6643]" />
-          <span>Export to CSV / Excel</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={handleManualRefresh}
+            disabled={isRefreshing}
+            className="px-3 py-2 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs active:scale-[0.98] disabled:opacity-50"
+            title="नवीन आलेले अर्ज व डेटा रिफ्रेश करा"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 text-[#0B6643] ${isRefreshing ? 'animate-spin' : ''}`} />
+            <span>डेटा रिफ्रेश (Refresh)</span>
+          </button>
+
+          <button
+            onClick={() => setIsImportModalOpen(true)}
+            className="px-3.5 py-2 rounded-xl bg-[#184E34] hover:bg-[#0F3825] text-white text-xs font-bold flex items-center gap-2 cursor-pointer transition-all shadow-xs active:scale-[0.98]"
+            title="Excel किंवा CSV फाईलवरून संस्थांचा डेटा सिस्टीममध्ये अपलोड करा"
+          >
+            <UploadCloud className="w-4 h-4 text-emerald-300" />
+            <span>Excel Sheet अपलोड करा</span>
+          </button>
+
+          <button
+            onClick={exportToCSV}
+            className="px-3 py-2 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs"
+            title="विद्यमान सर्व अर्ज CSV किंवा Excel मध्ये डाउनलोड करा"
+          >
+            <FileSpreadsheet className="w-4 h-4 text-[#0B6643]" />
+            <span>Export to CSV / Excel</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter Bar */}
@@ -294,7 +399,23 @@ export const ApplicationsManager: React.FC<ApplicationsManagerProps> = ({
                       {app.id}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="font-bold text-stone-900">{app.name_of_organization}</div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-bold text-stone-900">{app.name_of_organization}</span>
+                        {app.status === 'Rejected' && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setAppToDelete(app);
+                            }}
+                            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-red-100 hover:bg-red-200 text-red-700 hover:text-red-900 text-[11px] font-bold border border-red-300 transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
+                            title="रिजेक्ट झालेली संस्था कायमची डिलिट करा (Delete rejected organisation)"
+                          >
+                            <Trash2 className="w-3 h-3 text-red-600" />
+                            <span>डिलिट करा</span>
+                          </button>
+                        )}
+                      </div>
                       <div className="text-[11px] text-stone-400">{app.type_of_organization} (Est. {app.year_of_establishment})</div>
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
@@ -326,6 +447,7 @@ export const ApplicationsManager: React.FC<ApplicationsManagerProps> = ({
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
                       <span className={`px-2.5 py-1 rounded-md text-[11px] font-semibold border ${
+                        app.status === 'New Application' ? 'bg-amber-100 text-amber-900 border-amber-300 font-extrabold shadow-2xs' :
                         app.status === 'Approved' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' :
                         app.status === 'Shortlisted' ? 'bg-purple-50 text-purple-800 border-purple-200' :
                         app.status === 'Meeting Scheduled' ? 'bg-indigo-50 text-indigo-800 border-indigo-200' :
@@ -343,12 +465,25 @@ export const ApplicationsManager: React.FC<ApplicationsManagerProps> = ({
                       })}
                     </td>
                     <td className="py-3 px-4 text-right whitespace-nowrap">
-                      <button
-                        onClick={() => onSelectApplication(app)}
-                        className="px-3 py-1.5 text-xs font-semibold text-white bg-[#0B6643] hover:bg-[#064E36] rounded-md transition-colors cursor-pointer"
-                      >
-                        Review
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => onSelectApplication(app)}
+                          className="px-3 py-1.5 text-xs font-semibold text-white bg-[#0B6643] hover:bg-[#064E36] rounded-md transition-colors cursor-pointer"
+                        >
+                          Review
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setAppToDelete(app);
+                          }}
+                          className="p-1.5 text-stone-400 hover:text-white hover:bg-red-600 rounded-md border border-stone-200 hover:border-red-600 transition-colors cursor-pointer"
+                          title="हा अर्ज सिस्टीममधून कायमचा डिलिट करा (Delete Application)"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -384,6 +519,77 @@ export const ApplicationsManager: React.FC<ApplicationsManagerProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Excel Import Modal */}
+      <ExcelImportModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onImportSuccess={(count) => {
+          onRefresh?.();
+        }}
+      />
+
+      {/* Delete Confirmation Modal for Rejected Application */}
+      {appToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-stone-200 space-y-4 animate-in fade-in zoom-in-95 duration-150">
+            <div className="w-14 h-14 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto border border-red-200 shadow-xs">
+              <Trash2 className="w-7 h-7" />
+            </div>
+
+            <div className="text-center space-y-1.5">
+              <h3 className="text-lg font-bold text-stone-900">
+                रिजेक्ट झालेला अर्ज कायमचा डिलिट करा
+              </h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                तुम्हाला खात्री आहे का की तुम्ही <strong>'{appToDelete.name_of_organization}'</strong> (ID: {appToDelete.id}) या संस्थेचा अर्ज सिस्टीममधून कायमचा काढू इच्छिता?
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-red-50/80 rounded-2xl border border-red-200 text-xs text-red-800 space-y-1">
+              <div className="font-bold flex items-center gap-1.5 text-red-900">
+                <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
+                <span>महत्त्वाची सूचना:</span>
+              </div>
+              <p className="text-[11px] leading-relaxed">
+                हा अर्ज डिलिट केल्यानंतर त्याचा सर्व डेटा, पुनरावलोकन आणि ऑडिट हिस्ट्री सिस्टीममधून कायमची नष्ट होईल व पूर्ववत करता येणार नाही.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => setAppToDelete(null)}
+                className="px-4 py-2.5 rounded-xl border border-stone-300 hover:bg-stone-100 text-stone-700 text-xs font-bold transition-colors cursor-pointer"
+              >
+                रद्द करा (Cancel)
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteConfirm}
+                className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5 active:scale-95"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>होय, कायमचा डिलिट करा</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Success Toast */}
+      {deleteToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-stone-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-stone-700 animate-in fade-in slide-in-from-bottom-3 text-xs">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span className="font-medium">{deleteToast}</span>
+          <button
+            onClick={() => setDeleteToast(null)}
+            className="ml-2 text-stone-400 hover:text-white cursor-pointer font-bold"
+          >
+            &times;
+          </button>
+        </div>
+      )}
     </div>
   );
 };

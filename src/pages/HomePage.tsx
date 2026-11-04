@@ -108,35 +108,72 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-2 text-xs font-extrabold text-[#184E34] uppercase tracking-wider bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200">
-                  Sustainable Ecology &amp; Village Advancement
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#C2410C] bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-                  SEVA
-                </span>
-              </div>
-
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#143E29] leading-[1.14] text-balance">
+              {/* Main Headline (Bold, prominent) */}
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#143E29] leading-[1.18] text-balance">
                 Strengthening Grassroots Organisations Through Digital Transformation
               </h1>
 
-              {/* Tagline as requested: Technology • Digital Capacity Building • MIS • Data Management • Social Impact */}
-              <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50/70 border border-emerald-200/80 text-xs sm:text-sm font-bold text-[#143E29] flex flex-wrap items-center gap-2">
-                <span className="text-[#184E34] font-black uppercase text-[11px]">Core Pillars:</span>
-                <span>Technology</span>
-                <span className="text-amber-500">•</span>
-                <span>Digital Capacity Building</span>
-                <span className="text-amber-500">•</span>
-                <span>MIS</span>
-                <span className="text-amber-500">•</span>
-                <span>Data Management</span>
-                <span className="text-amber-500">•</span>
-                <span>Social Impact</span>
+              {/* Subtitle (directly below main headline): An Initiative of Sarathi Sanstha */}
+              <div className="flex items-center gap-2 pt-0.5">
+                <span className="text-base sm:text-lg font-bold text-[#0B6643] tracking-wide">
+                  An Initiative of{' '}
+                  <a
+                    href="https://www.sarathisanstha.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-[#064E36] font-extrabold text-[#184E34]"
+                  >
+                    Sarathi Sanstha
+                  </a>
+                </span>
               </div>
 
+              {/* Core Pillars in SEPARATE, DISTINCT COLOURS */}
+              <div className="pt-1 pb-1">
+                <div className="text-[11px] uppercase tracking-wider font-extrabold text-stone-500 mb-2">
+                  Core Pillars:
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* Pillar 1: Technology (Vibrant Blue) */}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs">
+                    <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0" />
+                    <span>Technology</span>
+                  </span>
+
+                  {/* Pillar 2: Digital Capacity Building (Forest Emerald) */}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-2xs">
+                    <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" />
+                    <span>Digital Capacity Building</span>
+                  </span>
+
+                  {/* Pillar 3: MIS (Warm Amber) */}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 text-amber-900 border border-amber-200/80 shadow-2xs">
+                    <span className="w-2 h-2 rounded-full bg-amber-600 shrink-0" />
+                    <span>MIS</span>
+                  </span>
+
+                  {/* Pillar 4: Data Management (Deep Indigo) */}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/80 shadow-2xs">
+                    <span className="w-2 h-2 rounded-full bg-indigo-600 shrink-0" />
+                    <span>Data Management</span>
+                  </span>
+
+                  {/* Pillar 5: Social Impact (Rich Rose) */}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-rose-50 text-rose-700 border border-rose-200/80 shadow-2xs">
+                    <span className="w-2 h-2 rounded-full bg-rose-600 shrink-0" />
+                    <span>Social Impact</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Main Description (hero paragraph) */}
               <p className="text-base sm:text-lg text-[#254636] leading-[1.72] max-w-2xl font-normal">
-                Technology should not be a barrier to village development. SEVA works with grassroots organisations to simplify their systems, build digital confidence, improve data management, and amplify their ground social impact.
+                Technology should not be a barrier to village development. SEVA, an initiative of Sarathi Sanstha, works with grassroots organisations to simplify their systems, build digital confidence, improve data management, and amplify their ground social impact.
+              </p>
+
+              {/* Additional Paragraph (below main description) */}
+              <p className="text-sm sm:text-base text-stone-600 leading-[1.68] max-w-2xl font-normal border-l-3 border-emerald-600/60 pl-3.5 bg-emerald-50/40 py-2 rounded-r-xl">
+                Sarathi Sanstha works with the objective of sustaining the livelihoods of tribal women and farmers, and also works on the issues of environment, education, and self-governance.
               </p>
 
               {/* CTAs */}

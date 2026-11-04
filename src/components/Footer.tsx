@@ -157,13 +157,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmin }) => {
                 </a>
               </div>
 
-              <div className="pt-3">
+              <div className="pt-3 flex flex-wrap items-center gap-2">
                 <button
                   onClick={onOpenAdmin}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/25 text-emerald-200 hover:text-white hover:bg-black/40 text-xs transition-colors cursor-pointer border border-emerald-800/80 font-medium"
                 >
                   <Lock className="w-3.5 h-3.5 text-[#D97706]" />
-                  <span>SEVA Staff Admin Login (सुरक्षित)</span>
+                  <span>Admin Login</span>
+                </button>
+                <button
+                  onClick={() => {
+                    window.location.href = window.location.origin + window.location.pathname + '?v=' + Date.now();
+                  }}
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-emerald-950/80 text-emerald-300 hover:text-white text-xs border border-emerald-800/60 cursor-pointer"
+                  title="Force refresh to load newest website version"
+                >
+                  <span>🔄 रिफ्रेश (Update Site)</span>
                 </button>
               </div>
             </div>

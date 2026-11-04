@@ -212,9 +212,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </button>
               </div>
 
-              {/* Institutional info */}
-              <div className="pt-3 pb-1 text-center text-[11px] text-stone-500 font-medium">
-                An Initiative of <strong className="text-[#064E36]">Sarathi Sanstha</strong> • Ralegaon, Yavatmal
+              {/* Institutional info & Cache Buster */}
+              <div className="pt-3 pb-1 text-center text-[11px] text-stone-500 font-medium space-y-1.5">
+                <div>
+                  An Initiative of <strong className="text-[#064E36]">Sarathi Sanstha</strong> • Ralegaon, Yavatmal
+                </div>
+                <div>
+                  <button
+                    onClick={() => {
+                      window.location.href = window.location.origin + window.location.pathname + '?v=' + Date.now();
+                    }}
+                    className="text-[11px] text-[#064E36] font-bold hover:underline inline-flex items-center gap-1 cursor-pointer bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200"
+                  >
+                    <span>🔄 नवीन आवृत्ती लोड करा (Tap to Hard Refresh)</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

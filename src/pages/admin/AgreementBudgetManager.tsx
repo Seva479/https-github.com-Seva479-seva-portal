@@ -981,7 +981,13 @@ Website: https://sevavillage.org`;
             </div>
 
             {/* Calculated Real-Time Summary Pill */}
-            <div className="p-4 rounded-xl bg-gradient-to-br from-[#0F3825] to-[#184E34] text-white space-y-2 shadow-xs">
+            <div
+              className="p-4 rounded-xl text-white space-y-2 shadow-xs bg-[#0F3825]"
+              style={{
+                backgroundColor: '#0F3825',
+                backgroundImage: 'linear-gradient(135deg, #09281A 0%, #0F3825 50%, #175438 100%)',
+              }}
+            >
               <div className="flex items-center justify-between text-xs text-emerald-200 border-b border-emerald-700/60 pb-1.5">
                 <span>निवडलेल्या सेवा संख्या:</span>
                 <span className="font-bold font-mono">{budgetSummary.selectedCount} / 9 सेवा</span>

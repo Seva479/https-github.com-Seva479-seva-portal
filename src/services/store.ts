@@ -1856,4 +1856,81 @@ export class SevaStore {
     const updated = list.filter((a) => a.id !== id);
     this.save(STORAGE_KEYS.AGREEMENTS, updated);
   }
+
+  /**
+   * Export complete Admin Panel data as a downloadable JSON string.
+   * Allows users who made edits in preview or another device to transfer their data immediately.
+   */
+  static exportAllDataJSON(): string {
+    const backup = {
+      version: '2026.1',
+      exported_at: new Date().toISOString(),
+      applications: this.getApplications(),
+      organisation_settings: this.getSettings(),
+      impact_stats: this.getImpactStats(),
+      meetings: this.getMeetings(),
+      projects: this.getProjects(),
+      agreements: this.getAgreements(),
+      case_studies: this.getCaseStudies(),
+      resources: this.getResources(),
+      contact_messages: this.getContactMessages(),
+    };
+    return JSON.stringify(backup, null, 2);
+  }
+
+  /**
+   * Import complete Admin Panel data from a JSON object or string.
+   */
+  static importAllDataJSON(jsonStr: string): { success: boolean; message: string; count?: number } {
+    try {
+      const data = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
+      if (!data || typeof data !== 'object') {
+        return { success: false, message: 'अवैध डेटा फॉरमॅट' };
+      }
+
+      let appCount = 0;
+      if (Array.isArray(data.applications)) {
+        this.save(STORAGE_KEYS.APPLICATIONS, data.applications);
+        appCount = data.applications.length;
+      }
+      if (data.organisation_settings) {
+        this.save(STORAGE_KEYS.SETTINGS, data.organisation_settings);
+      }
+      if (Array.isArray(data.impact_stats)) {
+        this.save(STORAGE_KEYS.IMPACT_STATS, data.impact_stats);
+      }
+      if (Array.isArray(data.meetings)) {
+        this.save(STORAGE_KEYS.MEETINGS, data.meetings);
+      }
+      if (Array.isArray(data.projects)) {
+        this.save(STORAGE_KEYS.PROJECTS, data.projects);
+      }
+      if (Array.isArray(data.agreements)) {
+        this.save(STORAGE_KEYS.AGREEMENTS, data.agreements);
+      }
+      if (Array.isArray(data.case_studies)) {
+        this.save(STORAGE_KEYS.CASE_STUDIES, data.case_studies);
+      }
+      if (Array.isArray(data.resources)) {
+        this.save(STORAGE_KEYS.RESOURCES, data.resources);
+      }
+      if (Array.isArray(data.contact_messages)) {
+        this.save(STORAGE_KEYS.CONTACT_MESSAGES, data.contact_messages);
+      }
+
+      // Notify window
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('seva_store_updated', { detail: { type: 'full_restore' } }));
+      }
+
+      return {
+        success: true,
+        message: `डेटा यशस्वीरीत्या रीस्टोअर केला (${appCount} अर्ज लोड झाले).`,
+        count: appCount,
+      };
+    } catch (err: any) {
+      return { success: false, message: 'डेटा आयात करताना त्रुटी: ' + (err?.message || 'अज्ञात त्रुटी') };
+    }
+  }
 }
+

@@ -15,6 +15,9 @@ import {
   ChevronRight,
   MessageSquare,
   FileCheck,
+  Download,
+  Upload,
+  RefreshCw,
 } from 'lucide-react';
 import { SevaStore, ADMIN_USERS } from '../../services/store';
 import { Application, UserProfile, Meeting, ProgrammeProject } from '../../types';
@@ -58,6 +61,43 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
     setProjects(SevaStore.getProjects());
     setMeetings(SevaStore.getMeetings());
     setContactMessages(SevaStore.getContactMessages());
+  };
+
+  const handleExportData = () => {
+    try {
+      const jsonStr = SevaStore.exportAllDataJSON();
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `seva_admin_backup_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e: any) {
+      alert('बॅकअप तयार करताना त्रुटी: ' + (e?.message || 'अज्ञात त्रुटी'));
+    }
+  };
+
+  const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result as string;
+      if (content) {
+        const res = SevaStore.importAllDataJSON(content);
+        if (res.success) {
+          refreshAll();
+          alert(res.message);
+        } else {
+          alert('त्रुटी: ' + res.message);
+        }
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
   };
 
   // Auto-refresh when applications are submitted in another tab, window, or on the portal
@@ -151,24 +191,57 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ onExitAdmin }) => {
             </div>
           </div>
 
-          {/* User & Role Switcher + Logout */}
-          <div className="flex items-center gap-2 sm:gap-3 text-xs">
+          {/* Action Buttons: Export Data, Import Data, Logout */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 text-xs">
+            {/* Quick Refresh */}
+            <button
+              onClick={refreshAll}
+              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-full bg-emerald-900/60 hover:bg-emerald-800 text-emerald-200 hover:text-white font-bold transition-all cursor-pointer border border-emerald-700/50 flex items-center gap-1.5 shadow-xs"
+              title="डेटा रिफ्रेश करा (Refresh Store)"
+            >
+              <RefreshCw className="w-3.5 h-3.5 text-emerald-300" />
+              <span className="hidden lg:inline text-[11px]">रिफ्रेश</span>
+            </button>
+
+            {/* Export JSON Backup */}
+            <button
+              onClick={handleExportData}
+              className="px-2.5 sm:px-3 py-1.5 rounded-full bg-emerald-900/70 hover:bg-emerald-800 text-emerald-100 hover:text-white font-bold transition-all cursor-pointer border border-emerald-600/60 flex items-center gap-1.5 shadow-xs"
+              title="संपूर्ण ॲडमिन डेटा JSON फाईल म्हणून डाउनलोड करा (Export Data Backup)"
+            >
+              <Download className="w-3.5 h-3.5 text-amber-300" />
+              <span className="text-[11px] whitespace-nowrap">डेटा बॅकअप</span>
+            </button>
+
+            {/* Import JSON Restore */}
+            <label
+              className="px-2.5 sm:px-3 py-1.5 rounded-full bg-emerald-900/70 hover:bg-emerald-800 text-emerald-100 hover:text-white font-bold transition-all cursor-pointer border border-emerald-600/60 flex items-center gap-1.5 shadow-xs"
+              title="पूर्वी सेव्ह केलेली JSON फाईल अपलोड करून डेटा रीस्टोअर करा (Import Data Backup)"
+            >
+              <Upload className="w-3.5 h-3.5 text-sky-300" />
+              <span className="text-[11px] whitespace-nowrap">डेटा लोड</span>
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleImportFile}
+                className="hidden"
+              />
+            </label>
+
             {/* User Chip */}
-            <div className="hidden md:flex items-center gap-2 bg-emerald-950/70 px-3.5 py-1.5 rounded-full border border-emerald-700/60">
+            <div className="hidden xl:flex items-center gap-2 bg-emerald-950/70 px-3.5 py-1.5 rounded-full border border-emerald-700/60">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-emerald-100 font-semibold">{currentUser.name}</span>
-              <span className="text-emerald-400/50">·</span>
-              <span className="text-amber-300 font-mono text-[11px]">{currentUser.email}</span>
             </div>
 
             {/* Logout / Exit button */}
             <button
               onClick={onExitAdmin}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-red-950/70 hover:bg-red-900 text-red-200 hover:text-white font-bold transition-all cursor-pointer border border-red-800/60 shadow-xs"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-950/70 hover:bg-red-900 text-red-200 hover:text-white font-bold transition-all cursor-pointer border border-red-800/60 shadow-xs"
               title="सुरक्षितपणे बाहेर पडा (Logout and return to public website)"
             >
               <LogOut className="w-3.5 h-3.5 text-red-400" />
-              <span>लॉगआउट (Logout)</span>
+              <span className="hidden sm:inline">लॉगआउट</span>
             </button>
           </div>
         </div>

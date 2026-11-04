@@ -14,6 +14,7 @@ import {
   Sparkles,
   ChevronRight,
   ArrowUpRight,
+  ShieldCheck,
 } from 'lucide-react';
 import { SevaStore } from '../services/store';
 import { PencilHeroArt, PencilOfficeArt } from '../components/PencilArt';
@@ -107,16 +108,29 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
-            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+            <div className="lg:col-span-7 space-y-4 sm:space-y-6">
               {/* Main Headline (Bold, high contrast, responsive) */}
-              <h1 className="text-[22px] sm:text-3xl lg:text-5xl font-black tracking-tight text-[#064E36] leading-[1.22] text-balance">
+              <h1
+                className="text-2xl sm:text-3xl lg:text-5xl font-black tracking-tight leading-[1.22]"
+                style={{ color: '#064E36', fontFamily: "'Outfit', sans-serif" }}
+              >
                 Strengthening Grassroots Organisations Through Digital Transformation
               </h1>
 
               {/* Subtitle Badge */}
-              <div className="pt-0.5">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/90 text-xs sm:text-sm font-bold text-[#064E36]">
-                  <span className="w-2 h-2 rounded-full bg-[#064E36] shrink-0" />
+              <div>
+                <div
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-xs"
+                  style={{
+                    backgroundColor: '#ECFDF5',
+                    border: '1.5px solid #059669',
+                    color: '#064E36',
+                  }}
+                >
+                  <span
+                    className="w-2.5 h-2.5 rounded-full shrink-0"
+                    style={{ backgroundColor: '#064E36' }}
+                  />
                   <span>
                     An Initiative of{' '}
                     <a
@@ -131,52 +145,133 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              {/* Core Pillars: Structured Mobile Grid + Tablet/Desktop Pills */}
+              {/* Core Pillars: Structured Icon Cards with Guaranteed High-Contrast Colors */}
               <div className="space-y-2 pt-1 pb-1">
-                <div className="text-[11px] uppercase tracking-wider font-extrabold text-stone-500 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0" />
-                  <span>Core Programme Pillars:</span>
+                <div
+                  className="text-[11.5px] uppercase tracking-wider font-extrabold flex items-center gap-2"
+                  style={{ color: '#064E36' }}
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0"
+                    style={{ backgroundColor: '#059669' }}
+                  />
+                  <span>CORE PROGRAMME PILLARS</span>
                 </div>
-                <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
+
+                <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-stretch gap-2 sm:gap-2.5">
                   {/* Pillar 1: Technology */}
-                  <div className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-50 text-blue-900 border border-blue-200/90 shadow-2xs flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0" />
+                  <div
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs"
+                    style={{
+                      backgroundColor: '#EFF6FF',
+                      border: '1.5px solid #93C5FD',
+                      color: '#1E3A8A',
+                    }}
+                  >
+                    <div
+                      className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: '#DBEAFE', color: '#1D4ED8' }}
+                    >
+                      <Laptop className="w-3.5 h-3.5" />
+                    </div>
                     <span>Technology</span>
                   </div>
 
-                  {/* Pillar 2: Digital Capacity */}
-                  <div className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-50 text-emerald-900 border border-emerald-200/90 shadow-2xs flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" />
+                  {/* Pillar 2: Capacity Building */}
+                  <div
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs"
+                    style={{
+                      backgroundColor: '#ECFDF5',
+                      border: '1.5px solid #6EE7B7',
+                      color: '#064E36',
+                    }}
+                  >
+                    <div
+                      className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: '#D1FAE5', color: '#047857' }}
+                    >
+                      <Users className="w-3.5 h-3.5" />
+                    </div>
                     <span>Capacity Building</span>
                   </div>
 
-                  {/* Pillar 3: MIS */}
-                  <div className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 text-amber-950 border border-amber-200/90 shadow-2xs flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-amber-600 shrink-0" />
+                  {/* Pillar 3: MIS & Systems */}
+                  <div
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs"
+                    style={{
+                      backgroundColor: '#FFFBEB',
+                      border: '1.5px solid #FCD34D',
+                      color: '#78350F',
+                    }}
+                  >
+                    <div
+                      className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: '#FEF3C7', color: '#B45309' }}
+                    >
+                      <Database className="w-3.5 h-3.5" />
+                    </div>
                     <span>MIS &amp; Systems</span>
                   </div>
 
                   {/* Pillar 4: Data Management */}
-                  <div className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-50 text-indigo-900 border border-indigo-200/90 shadow-2xs flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-indigo-600 shrink-0" />
+                  <div
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs"
+                    style={{
+                      backgroundColor: '#EEF2FF',
+                      border: '1.5px solid #A5B4FC',
+                      color: '#312E81',
+                    }}
+                  >
+                    <div
+                      className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: '#E0E7FF', color: '#4338CA' }}
+                    >
+                      <FileSpreadsheet className="w-3.5 h-3.5" />
+                    </div>
                     <span>Data Management</span>
                   </div>
 
                   {/* Pillar 5: Social Impact (spans 2 cols on mobile) */}
-                  <div className="col-span-2 sm:col-span-1 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-rose-50 text-rose-900 border border-rose-200/90 shadow-2xs flex items-center justify-center sm:justify-start gap-2">
-                    <span className="w-2 h-2 rounded-full bg-rose-600 shrink-0" />
+                  <div
+                    className="col-span-2 sm:col-span-1 flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs"
+                    style={{
+                      backgroundColor: '#F0FDF4',
+                      border: '1.5px solid #86EFAC',
+                      color: '#14532D',
+                    }}
+                  >
+                    <div
+                      className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: '#DCFCE7', color: '#15803D' }}
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                    </div>
                     <span>Ground Social Impact</span>
                   </div>
                 </div>
               </div>
 
               {/* Main Description */}
-              <p className="text-sm sm:text-base lg:text-lg text-stone-700 leading-relaxed font-normal">
+              <p
+                className="text-sm sm:text-base lg:text-lg leading-relaxed font-normal"
+                style={{ color: '#374151' }}
+              >
                 Technology should not be a barrier to village development. SEVA, an initiative of Sarathi Sanstha, works with grassroots organisations to simplify their systems, build digital confidence, improve data management, and amplify their ground social impact.
               </p>
 
-              {/* Sarathi Sanstha Mission Statement */}
-              <div className="text-xs sm:text-sm text-[#143E29] leading-relaxed border-l-3 border-[#064E36] pl-3 py-2 bg-emerald-50/50 rounded-r-xl">
+              {/* Sarathi Sanstha Mission Statement Banner */}
+              <div
+                className="text-xs sm:text-sm leading-relaxed p-3.5 rounded-xl shadow-xs"
+                style={{
+                  backgroundColor: '#F0FDF4',
+                  borderLeft: '4px solid #064E36',
+                  borderTop: '1px solid #BBF7D0',
+                  borderRight: '1px solid #BBF7D0',
+                  borderBottom: '1px solid #BBF7D0',
+                  color: '#064E36',
+                  fontWeight: 600,
+                }}
+              >
                 Sarathi Sanstha works with the objective of sustaining the livelihoods of tribal women and farmers, and also works on the issues of environment, education, and self-governance.
               </div>
 
@@ -184,7 +279,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
                 <button
                   onClick={() => onNavigate('apply')}
-                  className="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-extrabold text-white bg-[#064E36] hover:bg-[#043E2B] active:bg-[#03261a] rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.98]"
+                  className="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-extrabold text-white rounded-full transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.98]"
+                  style={{
+                    backgroundColor: '#064E36',
+                    boxShadow: '0 4px 14px rgba(6, 78, 54, 0.35)',
+                    border: '1px solid #043E2B',
+                  }}
                 >
                   <span>Discover Technology Support</span>
                   <ArrowRight className="w-4 h-4 shrink-0" />
@@ -192,19 +292,38 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                 <button
                   onClick={() => onNavigate('about')}
-                  className="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-bold text-[#064E36] bg-white hover:bg-stone-50 border border-stone-300 rounded-full transition-all cursor-pointer shadow-2xs text-center"
+                  className="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-bold rounded-full transition-all cursor-pointer text-center"
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    color: '#064E36',
+                    border: '2px solid #064E36',
+                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
+                  }}
                 >
                   Read About SEVA &rarr;
                 </button>
               </div>
 
               {/* Shared Contribution Model Banner */}
-              <div className="p-3 sm:p-3.5 rounded-2xl bg-white border border-emerald-200/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-                  <span className="font-extrabold text-[#064E36]">Shared Contribution Model:</span>
+              <div
+                className="p-3.5 sm:p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm shadow-xs"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  border: '1.5px solid #059669',
+                }}
+              >
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: '#ECFDF5', color: '#059669' }}
+                  >
+                    <ShieldCheck className="w-4 h-4" />
+                  </div>
+                  <span className="font-extrabold" style={{ color: '#064E36' }}>
+                    Shared Contribution Model:
+                  </span>
                 </div>
-                <span className="text-stone-700 font-semibold pl-4 sm:pl-0">
+                <span className="font-bold pl-8 sm:pl-0" style={{ color: '#064E36' }}>
                   70% supported by SEVA · 30% grassroots contribution
                 </span>
               </div>

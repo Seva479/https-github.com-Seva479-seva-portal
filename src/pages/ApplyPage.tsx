@@ -404,23 +404,23 @@ export const ApplyPage: React.FC<ApplyPageProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 space-y-8">
+    <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 pb-20 space-y-6 sm:space-y-8">
       {/* Page Title & Intro */}
-      <div className="max-w-3xl space-y-3">
-        <span className="text-xs font-bold tracking-widest text-[#184E34] uppercase">
+      <div className="max-w-3xl space-y-2 sm:space-y-3">
+        <span className="text-xs font-bold tracking-widest text-[#064E36] uppercase">
           Application Portal
         </span>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#143E29] tracking-tight leading-[1.18]">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#064E36] tracking-tight leading-[1.18]">
           Apply for SEVA's Technology Support Programme
         </h1>
-        <p className="text-[#254636] text-base sm:text-lg leading-[1.7] font-normal">
+        <p className="text-stone-700 text-sm sm:text-lg leading-[1.6] font-normal">
           Tell us about your organisation, your current systems and the technology-related challenges you are facing. Our team will review your application and assess how SEVA can support your organisation.
         </p>
       </div>
 
       {/* Progress Indicator */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-4 sm:p-6 shadow-xs">
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+      <div className="bg-white rounded-2xl border border-stone-200 p-3 sm:p-6 shadow-xs overflow-x-auto">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 sm:gap-2 min-w-[280px]">
           {stepsConfig.map((s) => {
             const isCompleted = currentStep > s.num;
             const isCurrent = currentStep === s.num;
@@ -456,7 +456,7 @@ export const ApplyPage: React.FC<ApplyPageProps> = ({ onNavigate }) => {
       </div>
 
       {/* Form Container */}
-      <form onSubmit={handleFinalSubmit} className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-10 shadow-xs space-y-8">
+      <form onSubmit={handleFinalSubmit} className="bg-white rounded-2xl border border-stone-200 p-4 sm:p-8 md:p-10 shadow-xs space-y-6 sm:space-y-8 max-w-full overflow-hidden">
         {/* STEP 1: ORGANISATIONAL INFORMATION (Fields 1-9) */}
         {currentStep === 1 && (
           <div className="space-y-6">
@@ -1247,34 +1247,34 @@ export const ApplyPage: React.FC<ApplyPageProps> = ({ onNavigate }) => {
         )}
 
         {/* Navigation Buttons */}
-        <div className="pt-6 border-t border-stone-200 flex items-center justify-between">
+        <div className="pt-6 border-t border-stone-200 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
           {currentStep > 1 ? (
             <button
               type="button"
               onClick={prevStep}
-              className="px-5 py-2.5 rounded-lg border border-stone-300 text-stone-700 hover:bg-stone-50 text-xs font-semibold flex items-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-5 py-3 rounded-xl border border-stone-300 text-stone-700 hover:bg-stone-50 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-xs active:scale-[0.98]"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back</span>
+              <span>मागे जा (Back)</span>
             </button>
-          ) : <div />}
+          ) : <div className="hidden sm:block" />}
 
           {currentStep < 6 ? (
             <button
               type="button"
               onClick={nextStep}
-              className="px-6 py-2.5 rounded-lg bg-[#0B6643] hover:bg-[#064E36] text-white text-xs font-semibold flex items-center gap-2 cursor-pointer shadow-xs"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#064E36] hover:bg-[#043E2B] text-white text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-[0.98]"
             >
-              <span>Continue to Next Step</span>
+              <span>पुढील पायरी (Continue to Next Step)</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
             <button
               type="submit"
-              className="px-8 py-3 rounded-lg bg-[#0B6643] hover:bg-[#064E36] text-white text-xs font-bold flex items-center gap-2 cursor-pointer shadow-md active:scale-[0.98]"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#064E36] hover:bg-[#043E2B] text-white text-sm font-extrabold flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-[0.98]"
             >
               <Send className="w-4 h-4" />
-              <span>Submit Official Application</span>
+              <span>अर्ज सादर करा (Submit Official Application)</span>
             </button>
           )}
         </div>

@@ -12,16 +12,32 @@ import { ContactPage } from './pages/ContactPage';
 import { ApplyPage } from './pages/ApplyPage';
 import { AdminLayout } from './pages/admin/AdminLayout';
 import { AdminLoginModal } from './components/AdminLoginModal';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import { SevaStore } from './services/store';
 import { Bell, Sparkles, X } from 'lucide-react';
+
+const CURRENT_RELEASE_TAG = '2026.11.06-v3';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<string>('home');
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showBanner, setShowBanner] = useState<boolean>(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   const settings = SevaStore.getSettings();
+
+  // Automatic mobile cache buster: Ensures new updates are loaded smoothly
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('seva_app_version');
+      if (stored !== CURRENT_RELEASE_TAG) {
+        localStorage.setItem('seva_app_version', CURRENT_RELEASE_TAG);
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   // Helper to check if currently authenticated as admin
   const isUserAuthenticated = (): boolean => {
@@ -127,10 +143,12 @@ export default function App() {
         onNavigate={handleNavigate}
         isAdmin={isAdmin}
         onToggleAdmin={handleOpenAdmin}
+        mobileMenuOpen={mobileMenuOpen}
+        onToggleMobileMenu={(open) => setMobileMenuOpen(open !== undefined ? open : !mobileMenuOpen)}
       />
 
-      {/* Main Body View */}
-      <main className="flex-1">
+      {/* Main Body View (with bottom padding on mobile so content is never covered by bottom nav) */}
+      <main className="flex-1 pb-16 md:pb-0">
         {currentView === 'home' && <HomePage onNavigate={handleNavigate} />}
         {currentView === 'about' && <AboutPage onNavigate={handleNavigate} />}
         {currentView === 'approach' && <ApproachPage onNavigate={handleNavigate} />}
@@ -146,6 +164,13 @@ export default function App() {
       <Footer
         onNavigate={handleNavigate}
         onOpenAdmin={handleOpenAdmin}
+      />
+
+      {/* Mobile Bottom Navigation Bar (Visible only on mobile/tablet) */}
+      <MobileBottomNav
+        currentView={currentView}
+        onNavigate={handleNavigate}
+        onOpenMenu={() => setMobileMenuOpen(true)}
       />
 
       {/* Secure Password-Protected Admin Login Modal */}

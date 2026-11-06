@@ -122,7 +122,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <div className="md:col-span-4 flex md:justify-end">
             <button
               onClick={() => onNavigate('contact')}
-              className="px-6 py-3 text-xs sm:text-sm font-semibold text-[#064E36] bg-white hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer"
+              className="min-h-[48px] px-6 py-3 text-xs sm:text-sm font-semibold text-[#064E36] bg-white hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer flex items-center justify-center"
             >
               Contact Our Ralegaon Office
             </button>

@@ -368,8 +368,105 @@ export const ApplicationsManager: React.FC<ApplicationsManagerProps> = ({
         </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl border border-stone-200 overflow-hidden shadow-xs">
+      {/* 1. Mobile Cards View (Visible on Mobile & Tablet: Screen < 1024px) */}
+      <div className="lg:hidden space-y-3">
+        {paginated.length === 0 ? (
+          <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center text-stone-400">
+            No applications found matching your criteria.
+          </div>
+        ) : (
+          paginated.map((app) => (
+            <div
+              key={app.id}
+              className="bg-white rounded-2xl border border-stone-200 p-4 space-y-3 shadow-xs"
+            >
+              {/* Top Row: ID, Date, and Status Badge */}
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="font-mono text-xs font-bold text-stone-900 bg-stone-100 px-2.5 py-1 rounded-md">
+                  {app.id}
+                </span>
+                <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${
+                  app.status === 'New Application' ? 'bg-amber-100 text-amber-900 border-amber-300' :
+                  app.status === 'Approved' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                  app.status === 'Shortlisted' ? 'bg-purple-100 text-purple-800 border-purple-300' :
+                  app.status === 'Meeting Scheduled' ? 'bg-indigo-100 text-indigo-800 border-indigo-300' :
+                  app.status === 'Rejected' ? 'bg-red-100 text-red-800 border-red-300' :
+                  'bg-stone-100 text-stone-700 border-stone-200'
+                }`}>
+                  {app.status}
+                </span>
+              </div>
+
+              {/* Organisation Info */}
+              <div>
+                <h4 className="font-extrabold text-base text-stone-900 leading-tight">
+                  {app.name_of_organization}
+                </h4>
+                <div className="text-xs text-stone-500 mt-0.5">
+                  {app.type_of_organization} • {app.district}, {app.state}
+                </div>
+              </div>
+
+              {/* Details grid */}
+              <div className="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-stone-100">
+                <div>
+                  <span className="text-stone-400 block text-[10.5px]">Contact Person:</span>
+                  <span className="font-semibold text-stone-800">{app.contact_person_name}</span>
+                  <span className="block font-mono text-stone-500 text-[11px]">+91 {app.contact_number}</span>
+                </div>
+                <div>
+                  <span className="text-stone-400 block text-[10.5px]">Priority &amp; Score:</span>
+                  <span className="font-semibold text-stone-800">{app.priority} Priority</span>
+                  {app.reviews?.total_score !== undefined && (
+                    <span className="block font-bold text-[#0B6643]">{app.reviews.total_score}/100</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Mobile Actions: Review & Delete */}
+              <div className="pt-2 border-t border-stone-100 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => onSelectApplication(app)}
+                  className="flex-1 py-2 px-3 text-xs font-bold text-white bg-[#064E36] hover:bg-[#043E2B] rounded-xl text-center cursor-pointer shadow-xs active:scale-95"
+                >
+                  तपासा (Review)
+                </button>
+
+                {/* Prominent delete button on mobile */}
+                {app.status === 'Rejected' ? (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setAppToDelete(app);
+                    }}
+                    className="flex-1 py-2 px-3 text-xs font-bold text-red-700 bg-red-100 hover:bg-red-200 border border-red-300 rounded-xl text-center cursor-pointer flex items-center justify-center gap-1.5 shadow-xs active:scale-95"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                    <span>रिजेक्ट अर्ज डिलिट करा</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setAppToDelete(app);
+                    }}
+                    className="p-2 text-stone-400 hover:text-red-600 hover:bg-red-50 rounded-xl border border-stone-200 cursor-pointer"
+                    title="डिलिट करा"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* 2. Desktop Table View (Visible on screens >= 1024px) */}
+      <div className="hidden lg:block bg-white rounded-xl border border-stone-200 overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-stone-50 border-b border-stone-200 text-stone-600 font-bold uppercase tracking-wider text-[11px]">

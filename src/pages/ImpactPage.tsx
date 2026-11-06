@@ -246,7 +246,7 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate }) => {
           </div>
           <button
             onClick={() => onNavigate('apply')}
-            className="px-6 py-3.5 text-sm font-bold text-[#064E36] bg-white hover:bg-emerald-50 rounded-lg transition-all shrink-0 cursor-pointer"
+            className="w-full sm:w-auto min-h-[48px] px-6 py-3.5 text-sm font-bold text-[#064E36] bg-white hover:bg-emerald-50 rounded-lg transition-all shrink-0 cursor-pointer flex items-center justify-center"
           >
             Apply for Support
           </button>

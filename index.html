@@ -2,11 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#064E36" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>SEVA – Sustainable Ecology &amp; Village Advancement | Digital Empowerment for Grassroots NGOs</title>
     
     <!-- SEO Meta Tags -->
@@ -59,12 +56,19 @@
       html, body {
         margin: 0;
         padding: 0;
+        width: 100%;
+        max-width: 100%;
         overflow-x: hidden;
         background-color: #F7FAF8;
         color: #172B24;
         font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+      }
+      #root {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
       }
       a {
         color: inherit;
@@ -74,11 +78,7 @@
         font-family: inherit;
         cursor: pointer;
       }
-      svg {
-        display: inline-block;
-        vertical-align: middle;
-      }
-      img {
+      svg, img, video, canvas {
         max-width: 100%;
         height: auto;
       }

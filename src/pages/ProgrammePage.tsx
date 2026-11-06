@@ -241,7 +241,7 @@ export const ProgrammePage: React.FC<ProgrammePageProps> = ({ onNavigate }) => {
           <div className="pt-2">
             <button
               onClick={() => onNavigate('apply')}
-              className="px-8 py-3.5 text-sm font-bold text-[#064E36] bg-white hover:bg-emerald-50 rounded-lg transition-all shadow-xs cursor-pointer inline-flex items-center gap-2"
+              className="w-full sm:w-auto min-h-[48px] px-8 py-3.5 text-sm font-bold text-[#064E36] bg-white hover:bg-emerald-50 rounded-lg transition-all shadow-xs cursor-pointer inline-flex items-center justify-center gap-2"
             >
               <span>Submit an Application</span>
               <ArrowRight className="w-4 h-4" />

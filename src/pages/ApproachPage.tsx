@@ -114,7 +114,7 @@ export const ApproachPage: React.FC<ApproachPageProps> = ({ onNavigate }) => {
         <div className="pt-8 text-center">
           <button
             onClick={() => onNavigate('apply')}
-            className="px-6 py-3.5 text-sm font-semibold text-white bg-[#0B6643] hover:bg-[#064E36] rounded-lg transition-all shadow-xs inline-flex items-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto min-h-[48px] px-6 py-3.5 text-sm font-semibold text-white bg-[#0B6643] hover:bg-[#064E36] rounded-lg transition-all shadow-xs inline-flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Submit an Application for Your Organisation</span>
             <ArrowRight className="w-4 h-4" />

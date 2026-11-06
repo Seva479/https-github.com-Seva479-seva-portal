@@ -633,7 +633,7 @@ export const ResourcesPage: React.FC = () => {
               placeholder="Search guides, templates, and methodologies (e.g. MIS, Security, Reporting, Communication, Monitoring)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6643]/30 focus:border-[#0B6643]"
+              className="w-full min-h-[48px] pl-11 pr-4 py-3 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6643]/30 focus:border-[#0B6643]"
             />
           </div>
 
@@ -724,7 +724,7 @@ export const ResourcesPage: React.FC = () => {
                   <div className="pt-4 border-t border-stone-100 flex items-center justify-between gap-2">
                     <button
                       onClick={() => setActiveArticle(item)}
-                      className="text-xs font-bold text-[#0B6643] hover:text-[#064E36] transition-colors cursor-pointer flex items-center gap-1"
+                      className="min-h-[48px] text-xs font-bold text-[#0B6643] hover:text-[#064E36] transition-colors cursor-pointer flex items-center gap-1.5 px-2"
                     >
                       <span>Read Guide</span>
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -732,10 +732,10 @@ export const ResourcesPage: React.FC = () => {
 
                     <button
                       onClick={() => handleDownload(item)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#184E34] bg-emerald-50 hover:bg-[#184E34] hover:text-white border border-emerald-200 transition-all cursor-pointer shadow-2xs active:scale-[0.98]"
+                      className="min-h-[48px] flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold text-[#184E34] bg-emerald-50 hover:bg-[#184E34] hover:text-white border border-emerald-200 transition-all cursor-pointer shadow-2xs active:scale-[0.98]"
                       title={`Download ${item.download_name || 'Resource'}`}
                     >
-                      <Download className="w-3.5 h-3.5" />
+                      <Download className="w-4 h-4" />
                       <span>{isExcel ? 'Download Excel' : 'Download Word'}</span>
                     </button>
                   </div>

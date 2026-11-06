@@ -50,6 +50,46 @@ h1, h2, h3, h4, h5, h6 {
   background: #94a3b8;
 }
 
+/* Fluid Typography with clamp() for graceful scaling without awkward wrapping */
+.text-fluid-hero {
+  font-size: clamp(1.65rem, 5vw, 3.25rem);
+  line-height: 1.2;
+}
+
+.text-fluid-h2 {
+  font-size: clamp(1.35rem, 3.5vw, 2.25rem);
+  line-height: 1.25;
+}
+
+.text-fluid-h3 {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  line-height: 1.35;
+}
+
+.text-fluid-body {
+  font-size: clamp(0.925rem, 1.8vw, 1.125rem);
+  line-height: 1.65;
+}
+
+/* Touch Targets: minimum 48x48px on mobile for accessibility */
+.touch-target {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Responsive media scaling */
+img, svg, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Strict horizontal overflow prevention */
+html, body, #root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 /* Print styling for application summaries */
 @media print {
   .no-print {
@@ -59,3 +99,4 @@ h1, h2, h3, h4, h5, h6 {
     display: block !important;
   }
 }
+
